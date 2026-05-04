@@ -3,9 +3,9 @@ D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DAL.deps.json
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DAL.runtimeconfig.json
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DAL.dll
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DAL.pdb
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.Models.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.Models.pdb
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.Models.dll.config
+D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DTO.dll
+D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DTO.pdb
+D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\WebBanHang.DTO.dll.config
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\WebBanHang.DAL.csproj.AssemblyReference.cache
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\WebBanHang.DAL.GeneratedMSBuildEditorConfig.editorconfig
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\WebBanHang.DAL.AssemblyInfoInputs.cache
@@ -18,11 +18,3 @@ D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\refint\WebBanHang.DAL.dll
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\WebBanHang.DAL.pdb
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\WebBanHang.DAL.genruntimeconfig.cache
 D:\LTCSDL\WebBanHang\WebBanHang.DAL\obj\Debug\net9.0\ref\WebBanHang.DAL.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.xml
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.xml
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.xml
-D:\LTCSDL\WebBanHang\WebBanHang.DAL\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.xml

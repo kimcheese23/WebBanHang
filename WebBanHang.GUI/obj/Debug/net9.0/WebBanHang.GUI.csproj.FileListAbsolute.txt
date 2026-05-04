@@ -22,7 +22,10 @@ D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.EntityFrameworkCo
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Configuration.dll
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Identity.Client.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
@@ -118,13 +121,13 @@ D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\runtimes\win\lib\net6.0\Sys
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.BLL.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DAL.dll
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.Models.dll
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DTO.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.BLL.pdb
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.BLL.dll.config
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DAL.pdb
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DAL.dll.config
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.Models.pdb
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.Models.dll.config
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DTO.pdb
+D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\WebBanHang.DTO.dll.config
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\WebBanHang.GUI.csproj.AssemblyReference.cache
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\rpswa.dswa.cache.json
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\WebBanHang.GUI.GeneratedMSBuildEditorConfig.editorconfig
@@ -214,6 +217,3 @@ D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\refint\WebBanHang.GUI.dll
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\WebBanHang.GUI.pdb
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\WebBanHang.GUI.genruntimeconfig.cache
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\obj\Debug\net9.0\ref\WebBanHang.GUI.dll
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Configuration.dll
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\LTCSDL\WebBanHang\WebBanHang.GUI\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll

@@ -831,9 +831,13 @@
         }
       },
       "WebBanHang.DTO/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.4"
+        },
         "runtime": {
-          "WebBanHang.Models.dll": {
-            "fileVersion": "0.0.0.0"
+          "WebBanHang.DTO.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       }
