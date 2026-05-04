@@ -1,0 +1,32 @@
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Sản phẩm</h5>
+                <p>@ViewBag.ProductCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Người dùng</h5>
+                <p>@ViewBag.UserCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Đơn hàng</h5>
+                <p>@ViewBag.OrderCount</p>
+            </div>
+        </div>
+    </div>
+</div>

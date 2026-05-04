@@ -1,0 +1,100 @@
+﻿<form id="productForm">
+    <input type="hidden" id="Id" />
+
+    <div class="mb-3">
+        <input id="Name" class="form-control" placeholder="Tên sản phẩm" />
+    </div>
+
+    <div class="mb-3">
+        <input id="Price" class="form-control" placeholder="Giá" />
+    </div>
+
+    <div class="mb-3">
+        <input id="Quantity" class="form-control" placeholder="Số lượng" />
+    </div>
+
+    <div class="mb-3">
+        <select id="CategoryId" class="form-select">
+            @foreach (var c in ViewBag.CategoryList)
+            {
+                <option value="@c.Value">@c.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="button" class="btn btn-primary w-100" onclick="saveProduct()">
+        Lưu sản phẩm
+    </button>
+</form>
+<script>
+    async function loadProducts() {
+        const res = await fetch('/api/product');
+        const data = await res.json();
+
+        const tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>${item.quantity}</td>
+                    <td>
+                        <img src="/Content/images/${item.image}" width="80"/>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm"
+                            onclick="editProduct(${item.id}, '${item.name}', ${item.price}, ${item.quantity}, ${item.categoryId})">
+                            Sửa
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                            onclick="deleteProduct(${item.id})">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    async function saveProduct() {
+        const id = document.getElementById("Id").value;
+
+        const product = {
+            id: id ? parseInt(id) : 0,
+            name: document.getElementById("Name").value,
+            price: parseFloat(document.getElementById("Price").value),
+            quantity: parseInt(document.getElementById("Quantity").value),
+            categoryId: parseInt(document.getElementById("CategoryId").value)
+        };
+
+        if (id) {
+            await fetch(`/api/product/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            });
+        } else {
+            await fetch('/api/product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            });
+        }
+
+        loadProducts();
+    }
+
+    async function deleteProduct(id) {
+        if (!confirm("Xóa sản phẩm?")) return;
+
+        await fetch(`/api/product/${id}`, {
+            method: 'DELETE'
+        });
+
+        loadProducts();
+    }
+
+    window.onload = loadProducts;
+</script>

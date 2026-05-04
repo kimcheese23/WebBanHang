@@ -1,0 +1,77 @@
+﻿@model WebBanHang.ViewModel.RegisterVM
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Đăng ký";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2 style="text-align:center">Register</h2>
+    <div>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(temp => temp.UserName)
+                    @Html.TextBoxFor(temp => temp.UserName, new { placeholder = "UserName", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.UserName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(temp => temp.Password)
+                    @Html.PasswordFor(temp => temp.Password, new { placeholder = "Password", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(temp => temp.ConfirmPassword)
+                    @Html.PasswordFor(temp => temp.ConfirmPassword, new { placeholder = "ConfirmPassword", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(temp => temp.Email)
+                    @Html.TextBoxFor(temp => temp.Email, new { placeholder = "Email", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(temp => temp.Addresss)
+                    @Html.TextBoxFor(temp => temp.Addresss, new { placeholder = "Address", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.Addresss, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(temp => temp.DateOfBirth)
+                    @Html.TextBoxFor(temp => temp.DateOfBirth, new { placeholder = "DateofBirth", @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(temp => temp.DateOfBirth, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(temp => temp.City)
+                    @Html.TextBoxFor(temp => temp.City, new { placeholder = "City", @class = "form-control" })
+                    @Html.ValidationMessageFor(temp => temp.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">Đăng ký</button>
+            </div>
+
+        }
+    </div>
+    <div class="card-footer text-center">
+        <small>Bạn đã có tài khoản? <a href="/Account/Login">Đăng nhập ngay</a></small>
+    </div>
+</body>
+</html>

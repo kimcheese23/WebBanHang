@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Danh sách sản phẩm</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <select class="form-select">
+                <option>Tất cả danh mục</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." />
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-primary w-100">Tìm kiếm</button>
+        </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="row" id="product-list"></div>
+</div>
+
+<script>
+    async function loadProducts() {
+        const res = await fetch('/api/ProductApi');
+        const products = await res.json();
+
+        const container = document.getElementById('product-list');
+        container.innerHTML = '';
+
+        products.forEach(item => {
+            container.innerHTML += `
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+
+                        <img src="/Content/images/${item.image}"
+                             class="card-img-top"
+                             style="height:200px; object-fit:cover;" />
+
+                        <div class="card-body text-center">
+
+                            <h5>
+                                <a href="/Product/Details/${item.id}" 
+                                   class="text-info text-decoration-none">
+                                    ${item.name}
+                                </a>
+                            </h5>
+
+                            <p class="text-muted">Sản phẩm chất lượng cao</p>
+
+                            <p class="fw-bold">
+                                ${Number(item.price).toLocaleString()} đ
+                            </p>
+
+                            <button class="btn btn-primary btn-sm">
+                                Đặt hàng
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    window.onload = loadProducts;
+</script>

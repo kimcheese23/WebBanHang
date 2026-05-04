@@ -1,0 +1,554 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\LTCSDL\\WebBanHang\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\controllers\\productapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\controllers\\productapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dal\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|solutionrelative:webbanhang.dal\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.bll\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|solutionrelative:webbanhang.bll\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dal\\mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|solutionrelative:webbanhang.dal\\mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|D:\\LTCSDL\\WebBanHang\\webbanhang.dto\\entity\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|solutionrelative:webbanhang.dto\\entity\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dto\\entity\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|solutionrelative:webbanhang.dto\\entity\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dto\\entity\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|solutionrelative:webbanhang.dto\\entity\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dto\\entity\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FE218EA-A7D5-4DAD-B51C-86C73CB385C8}|WebBanHang.DTO\\WebBanHang.DTO.csproj|solutionrelative:webbanhang.dto\\entity\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.dal\\mydbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{113137EA-93CE-402D-8CD8-D0AA5AF0E231}|WebBanHang.DAL\\WebBanHang.DAL.csproj|solutionrelative:webbanhang.dal\\mydbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\views\\product\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\views\\product\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.bll\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|solutionrelative:webbanhang.bll\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.gui\\wwwroot\\content\\images\\oip.png||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{3A7693E0-4E15-451F-80DE-9451B31173F6}|WebBanHang.GUI\\WebBanHang.GUI.csproj|solutionrelative:webbanhang.gui\\wwwroot\\content\\images\\oip.png||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|d:\\ltcsdl\\webbanhang\\webbanhang.bll\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{1DCCF6A2-487F-4E0C-A6CF-0F6C5A5AE8BA}|WebBanHang.BLL\\WebBanHang.BLL.csproj|solutionrelative:webbanhang.bll\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\OrderDetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\OrderDetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:1:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\Order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\Entity\\ApplicationUser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebBanHang.Models\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductApiController.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Controllers\\ProductApiController.cs",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\Controllers\\ProductApiController.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Controllers\\ProductApiController.cs",
+              "RelativeToolTip": "WebBanHang.GUI\\Controllers\\ProductApiController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:28:34.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Program.cs",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\Program.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Program.cs",
+              "RelativeToolTip": "WebBanHang.GUI\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAA4AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T04:06:51.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DAL\\Repositories\\ProductRepository.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "WebBanHang.DAL\\Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T05:29:54.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "WebBanHang.BLL\\Services\\ProductService.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\Services\\ProductService.cs",
+              "RelativeToolTip": "WebBanHang.BLL\\Services\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T03:12:25.866Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DTO\\Entity\\ApplicationUser.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\ApplicationUser.cs",
+              "RelativeToolTip": "WebBanHang.DTO\\Entity\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T04:59:26.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Product.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DTO\\Entity\\Product.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Product.cs",
+              "RelativeToolTip": "WebBanHang.DTO\\Entity\\Product.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwBQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:39:12.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "WebBanHang.GUI\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:08:20.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MyDbContext.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\MyDbContext.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DAL\\MyDbContext.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\MyDbContext.cs",
+              "RelativeToolTip": "WebBanHang.DAL\\MyDbContext.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA8wCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T05:34:46.561Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20260504064631_InitialCreate.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs",
+              "RelativeToolTip": "WebBanHang.DAL\\Migrations\\20260504064631_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:46:31.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\appsettings.json",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\appsettings.json",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\appsettings.json",
+              "RelativeToolTip": "WebBanHang.GUI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-04T05:56:11.283Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Views\\Product\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\Views\\Product\\Index.cshtml",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Views\\Product\\Index.cshtml",
+              "RelativeToolTip": "WebBanHang.GUI\\Views\\Product\\Index.cshtml",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwEcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-04T06:04:38.919Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Category.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DTO\\Entity\\Category.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Category.cs",
+              "RelativeToolTip": "WebBanHang.DTO\\Entity\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:39:18.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Order.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DTO\\Entity\\Order.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DTO\\Entity\\Order.cs",
+              "RelativeToolTip": "WebBanHang.DTO\\Entity\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T06:39:16.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MyDbContextFactory.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\MyDbContextFactory.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DAL\\MyDbContextFactory.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\MyDbContextFactory.cs",
+              "RelativeToolTip": "WebBanHang.DAL\\MyDbContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T05:44:09.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "WebBanHang.BLL.AssemblyInfo.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs",
+              "RelativeToolTip": "WebBanHang.BLL\\obj\\Debug\\net9.0\\WebBanHang.BLL.AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T04:42:00.986Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Views\\Product\\Create.cshtml",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\Views\\Product\\Create.cshtml",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\Views\\Product\\Create.cshtml",
+              "RelativeToolTip": "WebBanHang.GUI\\Views\\Product\\Create.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAIBJwFwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-04T04:46:19.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "packages.config",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\packages.config",
+              "RelativeDocumentMoniker": "WebBanHang.BLL\\packages.config",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\packages.config",
+              "RelativeToolTip": "WebBanHang.BLL\\packages.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-05-04T03:09:52.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAAJwIAAAAAAAAAAAAwJoIAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2026-05-04T04:40:09.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "WebBanHang.DAL.AssemblyInfo.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs",
+              "RelativeToolTip": "WebBanHang.DAL\\obj\\Debug\\net9.0\\WebBanHang.DAL.AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T04:23:13.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "OIP.png",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\wwwroot\\Content\\images\\OIP.png",
+              "RelativeDocumentMoniker": "WebBanHang.GUI\\wwwroot\\Content\\images\\OIP.png",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.GUI\\wwwroot\\Content\\images\\OIP.png",
+              "RelativeToolTip": "WebBanHang.GUI\\wwwroot\\Content\\images\\OIP.png",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2026-05-04T04:13:35.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Product.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Product.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T00:42:53.998Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T00:29:13.677Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "OrderDetail.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\OrderDetail.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\OrderDetail.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\OrderDetail.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\OrderDetail.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T00:48:15.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Order.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Order.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T00:42:47.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\App.config",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\App.config",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\App.config",
+              "RelativeToolTip": "WebBanHang.Models\\App.config",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-05-03T11:05:11.401Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Category.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Category.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-04T00:48:07.167Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\App.config",
+              "RelativeDocumentMoniker": "WebBanHang.BLL\\App.config",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.BLL\\App.config",
+              "RelativeToolTip": "WebBanHang.BLL\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-05-04T03:09:44.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Category.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Category.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T10:07:00.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Product.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Product.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Product.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T10:07:03.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\Order.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\Order.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T10:07:01.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "RelativeToolTip": "WebBanHang.Models\\Entity\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T10:06:59.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "packages.config",
+              "DocumentMoniker": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\packages.config",
+              "RelativeDocumentMoniker": "WebBanHang.Models\\packages.config",
+              "ToolTip": "D:\\LTCSDL\\WebBanHang\\WebBanHang.Models\\packages.config",
+              "RelativeToolTip": "WebBanHang.Models\\packages.config",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-05-03T11:05:34.608Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
