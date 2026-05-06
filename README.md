@@ -60,7 +60,7 @@ Dự án được tổ chức theo mô hình 3 lớp (với việc tách biệt 
 ```bash
 git clone https://github.com/kimcheese23/WebBanHang.git
 ```
-- Cấu hình Database: Mở file appsettings.json trong project GUI và thay đổi chuỗi kết nối DefaultConnection phù hợp với máy của bạn.
+- Cấu hình Database: Mở file appsettings.json trong project GUI và thay đổi chuỗi kết nối DefaultConnection phù hợp với máy của bạn (để kết nối với SSMS) hoặc không cần đổi cũng được.
 - Migration: Mở Package Manager Console và chạy lệnh(chọn Default project là WebBanHang.DAL):
 ```
 Update-Database
