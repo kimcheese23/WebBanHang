@@ -65,6 +65,7 @@ git clone https://github.com/kimcheese23/WebBanHang.git
 ```
 Update-Database
 ```
+- Sau khi tạo DB, mở Object explore chạy file script SQL (để trong thư mục /Scripts) chứa các View, Function, SP đã nêu trên vào SQL Server để các tính năng nâng cao hoạt động.
 - Khởi chạy ứng dụng:
 Sử dụng Visual Studio 2022 (F5) 
 
