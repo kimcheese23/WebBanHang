@@ -1,0 +1,201 @@
+﻿@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<form id="productForm" class="p-3 border bg-light mb-4">
+    <input type="hidden" id="Id" />
+    <div class="row g-2">
+        <div class="col-md-3"><input id="Name" class="form-control" placeholder="Tên sản phẩm" required /></div>
+        <div class="col-md-2"><input id="Price" type="number" class="form-control" placeholder="Giá" required /></div>
+        <div class="col-md-2"><input id="Quantity" type="number" class="form-control" placeholder="Số lượng" value="0" /></div>
+        <div class="col-md-2">
+            <select id="CategoryId" class="form-select">
+                @if (ViewBag.CategoryList != null)
+                {
+                    foreach (var c in ViewBag.CategoryList)
+                    {
+                        <option value="@c.Value">@c.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="file" id="ImageFile" class="form-control" accept="image/*" />
+            <input type="hidden" id="Image" />
+        </div>
+        <div class="col-md-1">
+            <button type="button" id="btnSave" class="btn btn-primary w-100" onclick="saveProduct()">Lưu</button>
+        </div>
+    </div>
+</form>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="input-group">
+            <input type="text" id="txtSearch" class="form-control" placeholder="Tìm tên sản phẩm..." onkeyup="searchProduct()">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Hình ảnh</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody id="productTableBody"></tbody>
+</table>
+
+<script>
+    const API_URL = '/api/ProductApi';
+    let searchTimeout = null;
+
+    async function loadProducts(keyword = "") {
+        let url = keyword ? `${API_URL}/search?name=${encodeURIComponent(keyword)}` : `${API_URL}/details`;
+        
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const tbody = document.getElementById("productTableBody");
+            
+            if (!data || data.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='6' class='text-center'>Không tìm thấy sản phẩm</td></tr>";
+                return;
+            }
+
+                tbody.innerHTML = data.map(item => `
+                    <tr>
+                        <td>${item.productName || item.name}</td>
+                        <td><span class="badge bg-secondary">${item.categoryName || 'N/A'}</span></td>
+                        <td>${item.price.toLocaleString('vi-VN')} đ</td>
+                        <td>${item.quantity}</td>
+                        <td><img src="/Content/images/${item.image || 'default.png'}" width="50"/></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm"
+                                onclick="editProduct(
+                                    ${item.id},
+                                    '${(item.name || item.productName || '').replace(/'/g, "\\'")}',
+                                    ${item.price},
+                                    ${item.quantity},
+                                    ${item.categoryId},
+                                    '${item.image || ''}'
+                                )">
+                                Sửa
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${item.id})">Xóa</button>
+                        </td>
+                    </tr>
+            `).join('');
+        } catch (error) {
+            console.error("Lỗi khi tải dữ liệu:", error);
+        }
+    }
+
+    async function loadStockValue() {
+        try {
+            const response = await fetch(`${API_URL}/stock-value`);
+            const value = await response.json();
+            document.getElementById("totalStockValue").innerText = value.toLocaleString('vi-VN');
+        } catch (error) {
+            console.error("Lỗi khi tải giá trị kho:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadProducts();
+        loadStockValue();
+    });
+
+    function searchProduct() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const keyword = document.getElementById("txtSearch").value;
+            loadProducts(keyword);
+        }, 500); 
+    }
+
+    async function saveProduct() {
+        const idValue = document.getElementById("Id").value;
+        const fileInput = document.getElementById("ImageFile");
+        const oldImage = document.getElementById("Image").value;
+    
+        const formData = new FormData();
+        formData.append("Id", idValue ? parseInt(idValue) : 0);
+        formData.append("Name", document.getElementById("Name").value.trim());
+        formData.append("Price", document.getElementById("Price").value);
+        formData.append("Quantity", document.getElementById("Quantity").value);
+        formData.append("CategoryId", document.getElementById("CategoryId").value);
+
+        if (fileInput.files[0]) {
+            formData.append("ImageFile", fileInput.files[0]);
+        } else if (idValue > 0) {
+            formData.append("Image", oldImage);
+        }
+
+        const isUpdate = idValue > 0;
+        const url = isUpdate ? `${API_URL}/${idValue}` : API_URL;
+
+        try {
+            const res = await fetch(url, {
+                method: isUpdate ? 'PUT' : 'POST',
+                body: formData
+            });
+
+            if (res.ok) {
+                alert("Thành công!");
+                resetForm();
+                await loadProducts();  
+                await loadStockValue();
+            } else {
+                const error = await res.text();
+                alert("Lỗi: " + error);
+            }
+        } catch (err) {
+            console.error("Lỗi kết nối:", err);
+        }
+    }
+        
+    function editProduct(id, name, price, quantity, catId, image) {
+        document.getElementById("Id").value = id;
+        document.getElementById("Name").value = name;
+        document.getElementById("Price").value = price;
+        document.getElementById("Quantity").value = quantity;
+    
+        const categorySelect = document.getElementById("CategoryId");
+        if (categorySelect) {
+            categorySelect.value = catId;
+        }
+
+        document.getElementById("Image").value = image;
+        document.getElementById("btnSave").innerText = "Cập nhật";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function deleteProduct(id) {
+        if (!confirm("Bạn có chắc muốn xóa sản phẩm này?")) return;
+    
+        try {
+            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                await loadProducts();
+                await loadStockValue(); 
+            } else {
+                alert("Không thể xóa sản phẩm.");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    function resetForm() {
+        document.getElementById("productForm").reset();
+        document.getElementById("Id").value = "";
+        document.getElementById("btnSave").innerText = "Lưu";
+    }
+</script>

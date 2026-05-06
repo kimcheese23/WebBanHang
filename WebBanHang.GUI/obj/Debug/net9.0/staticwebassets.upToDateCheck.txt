@@ -60,7 +60,10 @@ D:\LTCSDL\WebBanHang\WebBanHang.GUI\wwwroot\lib\bootstrap\dist\js\bootstrap.min.
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\wwwroot\lib\jquery\dist\jquery.js
 D:\LTCSDL\WebBanHang\WebBanHang.GUI\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+wwwroot\Content\images\2dd27d1b-3bb4-4ed7-b2cd-4767c56ad40d.png
 wwwroot\Content\images\OIP.png
+wwwroot\Content\images\a95b2e33-8780-4b3c-a470-326561a1977b.png
+wwwroot\Content\images\afd16de0-7b57-4464-98df-682b72b06d6d.png
 wwwroot\Content\images\airpods.jpg
 wwwroot\Content\images\ipad.jpg
 wwwroot\Content\images\iphone14.jpg

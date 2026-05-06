@@ -9,15 +9,8 @@ namespace WebBanHang.DTO.Entity
 {
     public class ApplicationUser : IdentityUser
     {
-        public String FullName { get; set; }
-        public DateTime? Birthday { get; set; }
-        public string Address { get; set; }
-
-        public virtual ICollection<Order> Orders { get; set; }
-
-        public ApplicationUser()
-        {
-            Orders = new List<Order>();
-        }
+        public String? FullName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Address { get; set; }
     }
 }

@@ -8,7 +8,7 @@ public class MyDbContextFactory : IDesignTimeDbContextFactory<MyDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
 
-        optionsBuilder.UseSqlServer("Server=.;Database=WebBanHang;Trusted_Connection=True;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=WebBanHang;Trusted_Connection=True;TrustServerCertificate=True");
 
         return new MyDbContext(optionsBuilder.Options);
     }

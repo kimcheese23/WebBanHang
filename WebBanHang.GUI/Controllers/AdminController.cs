@@ -1,36 +1,45 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Microsoft.EntityFrameworkCore;
 using WebBanHang.DAL;
+using WebBanHang.DTO.Entity;
 
 namespace WebBanHang.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        private readonly MyDbContext db;
 
-        //public ActionResult Dashboard()
-        //{
-        //    ViewBag.ProductCount = db.products.Count();
-        //    ViewBag.OrderCount = db.orders.Count();
-        //    return View();
-        //}
+        public AdminController(MyDbContext context)
+        {
+            db = context;
+        }
 
+        public IActionResult Dashboard()
+        {
+            ViewBag.ProductCount = db.Products.Count();
+            ViewBag.UserCount = db.Users.Count(); 
+            ViewBag.OrderCount = db.Orders.Count();
 
-        //public ActionResult Products()
-        //{
-        //    var products = db.products.ToList();
-        //    return View(products);
-        //}
+            return View();
+        }
 
-        //public ActionResult Orders()
-        //{
-        //    var orders = db.orders.Include("OrderDetails").ToList();
-        //    return View(orders);
-        //}
+        public IActionResult Products()
+        {
+            var categories = db.Categories.ToList();
+
+            ViewBag.CategoryList = categories.Select(categories => new
+            {
+                Value = categories.Id,
+                Text = categories.Name
+            }).ToList();
+            return View();
+        }
+
+        public IActionResult Categories()
+        {
+            return View();
+        }
     }
-
 }

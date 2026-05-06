@@ -1,107 +1,72 @@
-﻿ using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using WebBanHang.DTO.Entity;
-using WebBanHang.ViewModel;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using WebBanHang.DTO.Entity;
+using WebBanHang.GUI.Models;
+using WebBanHang.ViewModel;
+using System.Linq;
 
 namespace WebBanHang.Controllers
 {
-    //public class AccountController : Controller
-    //{
+    public class AccountController : Controller
+    {
+        private readonly UserManager<ApplicationUser> uM;
+        private readonly SignInManager<ApplicationUser> sM;
 
-    //    public ActionResult Register()
-    //    {
-    //        return View();
-    //    }
-    //    [HttpPost]
-    //    public ActionResult Register(RegisterVM rvm)
-    //    {
-    //        if (ModelState.IsValid) 
-    //        { 
-    //            var appDbContext = new AppDBContext();
-    //            var appUserStore = new AppUserStore(appDbContext);
-    //            var UserManager = new AppUserManager(appUserStore);
-    //            var passwordHash = Crypto.HashPassword(rvm.Password);
-    //            var user = new AppUser()
-    //            {
-    //                Email = rvm.Email,
-    //                UserName = rvm.UserName,
-    //                PasswordHash = passwordHash,
-    //                City = rvm.City,
-    //                Birthday = rvm.DateOfBirth,
-    //                Address = rvm.Addresss
-    //            };
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            uM = userManager;
+            sM = signInManager;
+        }
 
-    //            IdentityResult result = UserManager.Create(user);
-    //            if (result.Succeeded)
-    //            {
-    //                UserManager.AddToRole(user.Id, "Customer");
-    //                var authenManager = HttpContext.GetOwinContext().Authentication;
-    //                var userIdentity = UserManager.CreateIdentity(user, 
-    //                    DefaultAuthenticationTypes.ApplicationCookie);
-    //                authenManager.SignIn(new AuthenticationProperties(), userIdentity);
-    //            }
-    //            return RedirectToAction("Index", "Product");
-    //        }
-    //        else
-    //        {
-    //            ModelState.AddModelError("New Error", "Invalid Data");
-    //            return View();
-    //        }
-                
-    //    }
-    //    public ActionResult Login()
-    //    {
-    //        return View();
-    //    }
+        [HttpGet] public IActionResult Register() => View();
+        [HttpGet] public IActionResult Login() => View();
 
-    //    [HttpPost]
-    //    public ActionResult Login(LoginVM login)
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return View(login);
-    //        }
+        [HttpPost("/api/account/register")]
+        public async Task<IActionResult> RegisterApi([FromBody] RegisterVM rvm)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = rvm.UserName,
+                Email = rvm.Email,
+                DateOfBirth = rvm.DateOfBirth,
+                Address = rvm.Address
+            };
 
-    //        var appDbContext = new AppDBContext();
-    //        var appUserStore = new AppUserStore(appDbContext);
-    //        var UserManager = new AppUserManager(appUserStore);
+            var result = await uM.CreateAsync(user, rvm.Password);
+            if (result.Succeeded)
+            {
+                await uM.AddToRoleAsync(user, "Customer");
+                await sM.SignInAsync(user, isPersistent: false);
+                return Ok(new { success = true, redirectUrl = Url.Action("Index", "Product") });
+            }
 
-    //        var user = UserManager.Find(login.UserName, login.Password);
+            return Ok(new { success = false, errors = result.Errors.Select(e => e.Description) });
+        }
 
-    //        if (user != null)
-    //        {
-    //            var authenManager = HttpContext.GetOwinContext().Authentication;
-    //            var userIdentity = UserManager.CreateIdentity(user,
-    //                DefaultAuthenticationTypes.ApplicationCookie);
-    //            authenManager.SignIn(new AuthenticationProperties(), userIdentity);
+        [HttpPost("/api/account/login")]
+        public async Task<IActionResult> LoginApi([FromBody] LoginVM login)
+        {
+            var user = await uM.FindByNameAsync(login.UserName);
+            if (user != null)
+            {
+                var result = await sM.PasswordSignInAsync(user, login.Password, false, false);
+                if (result.Succeeded)
+                {
+                    string url = await uM.IsInRoleAsync(user, "Admin")
+                                 ? "/Admin/Dashboard"
+                                 : "/Product/Index";
 
-    //            if (UserManager.IsInRole(user.Id, "Admin"))
-    //            {
-    //                return RedirectToAction("Dashboard", "Admin");
-    //            }
-    //            else
-    //            {
-    //                return RedirectToAction("Index", "Product");
-    //            }
-    //        }
-    //        else
-    //        {
-    //            ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng");
-    //            return View(login);
-    //        }
-    //    }
+                    return Ok(new { success = true, redirectUrl = url });
+                }
+            }
+            return Ok(new { success = false, message = "Tài khoản hoặc mật khẩu không đúng" });
+        }
 
-
-    //    [Authorize]
-    //    public ActionResult Logout()
-    //    {
-    //        var authenManager = HttpContext.GetOwinContext().Authentication;
-    //        authenManager.SignOut();
-    //        return RedirectToAction("Index", "Product");
-    //    }
-    //}
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await sM.SignOutAsync();
+            return RedirectToAction("Index", "Product");
+        }
+    }
 }

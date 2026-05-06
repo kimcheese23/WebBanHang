@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Quản lý danh mục";
+}
+<div class="container mt-4">
+    <h3>Quản Lý Danh Mục</h3>
+    
+    <div class="row my-3">
+        <div class="col-md-6">
+            <input type="text" id="searchCat" class="form-control" placeholder="Nhập tên danh mục..." onkeyup="searchCategory()">
+        </div>
+    </div>
+
+    <div class="card p-3 mb-4 shadow-sm">
+        <input type="hidden" id="catId" />
+        <div class="input-group">
+            <input type="text" id="catName" class="form-control" placeholder="Tên danh mục mới">
+            <button class="btn btn-success" onclick="saveCategory()">Lưu</button>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tên Danh Mục</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody id="catTableBody"></tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        const API_URL = '/api/CategoryApi';
+
+        async function loadCategories() {
+            const data = await callApi(API_URL);
+            renderTable(data);
+        }
+
+        async function searchCategory() {
+            const name = document.getElementById("searchCat").value;
+            const data = await callApi(`${API_URL}/search?name=${name}`);
+            renderTable(data);
+        }
+
+        async function saveCategory() {
+            const id = document.getElementById("catId").value;
+            const name = document.getElementById("catName").value;
+        
+            if(!name) return alert("Vui lòng nhập tên!");
+
+            const method = id ? "PUT" : "POST";
+            const url = id ? `${API_URL}/${id}` : API_URL;
+        
+            const result = await callApi(url, method, { id: id || 0, name: name });
+            if(result) {
+                alert("Thành công!");
+                resetFormCat();
+                loadCategories();
+            }
+        }
+
+        async function deleteCategory(id) {
+            if(!confirm("Xóa danh mục này? Sản phẩm liên quan sẽ được chuyển về mặc định.")) return;
+            const res = await callApi(`${API_URL}/${id}`, "DELETE");
+            if(res) loadCategories();
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById("catTableBody");
+            if(!data) return;
+            tbody.innerHTML = data.map(item => `
+                <tr>
+                    <td>${item.id}</td>
+                    <td><b id="name-${item.id}">${item.name}</b></td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="editCat(${item.id}, '${item.name}')">Sửa</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCategory(${item.id})">Xóa</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editCat(id, name) {
+            document.getElementById("catId").value = id;
+            document.getElementById("catName").value = name;
+        }
+
+        function resetFormCat() {
+            document.getElementById("catId").value = "";
+            document.getElementById("catName").value = "";
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCategories);
+    </script>
+}

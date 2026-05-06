@@ -1,20 +1,18 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="vi">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebBanHang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- 🔥 NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Web Bán Hàng</a>
+            <a class="navbar-brand" asp-controller="Product" asp-action="Index">Web Bán Hàng</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
                 <span class="navbar-toggler-icon"></span>
@@ -22,33 +20,36 @@
 
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav me-auto">
-
                     <li class="nav-item">
-                        <a class="nav-link" href="/Product/Index">Trang chủ</a>
+                        <a class="nav-link" asp-controller="Product" asp-action="Index">Trang chủ</a>
                     </li>
-
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">Quản trị</a>
+                        </li>
+                    }
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
                     @if (User?.Identity?.IsAuthenticated == true)
                     {
                         <li class="nav-item">
-                            <span class="nav-link">
+                            <span class="nav-link text-info">
                                 Xin chào, @User.Identity.Name!
                             </span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Logout","Account")">Đăng xuất</a>
-
+                            <a class="nav-link btn btn-outline-danger btn-sm ms-2" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/Account/Login">Đăng nhập</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Account/Register">Đăng ký</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Đăng ký</a>
                         </li>
                     }
                 </ul>
@@ -56,18 +57,53 @@
         </div>
     </nav>
 
-    
     <div class="container mt-4">
         @RenderBody()
     </div>
 
     <!-- FOOTER -->
-    <footer class="text-center mt-5">
-        <hr />
-        <p>© 2026 - WebBanHang</p>
+    <footer class="text-center mt-5 py-3 border-top">
+        <p>© 2026 - WebBanHang - Chúc bạn một ngày tốt lành!</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        const API_BASE = window.location.origin + "/api"; 
+
+        async function callApi(endpoint, method = "GET", data = null) {
+            const cleanEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
+            const url = `${API_BASE}/${cleanEndpoint}`;
+
+            const options = {
+                method: method,
+                headers: { 
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]')?.value 
+                }
+            };
+
+            if (data && (method === "POST" || method === "PUT")) {
+                options.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(url, options);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Lỗi ${response.status}: ${errorText}`);
+                    return { success: false, status: response.status, message: "Lỗi server" };
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error("Fetch error:", error);
+                return { success: false, message: "Lỗi kết nối mạng" };
+            }
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
