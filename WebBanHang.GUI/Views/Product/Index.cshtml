@@ -8,8 +8,15 @@
 
     <div class="row mb-4">
         <div class="col-md-3">
-            <select id="categoryFilter" class="form-select">
+            <select id="categoryFilter" class="form-select" onchange="loadProducts()">
                 <option value="">Tất cả danh mục</option>
+                @if (ViewBag.CategoryList != null)
+                {
+                    foreach (var cat in ViewBag.CategoryList)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+                }
             </select>
         </div>
 
@@ -27,31 +34,12 @@
         <p>Đang tải sản phẩm...</p>
     </div>
 
-    <!-- Product List -->
     <div class="row" id="product-list">
     </div>
 </div>
 
 <script>
     const PRODUCT_API = "/api/ProductApi";
-    const CATEGORY_API = "/api/CategoryApi"; 
-
-    async function loadCategories() {
-        try {
-            const response = await fetch(CATEGORY_API);
-            const categories = await response.json();
-            const select = document.getElementById('categoryFilter');
-
-            categories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.id;
-                option.textContent = cat.name;
-                select.appendChild(option);
-            });
-        } catch (error) {
-            console.error("Lỗi load danh mục:", error);
-        }
-    }
 
     async function loadProducts() {
         const container = document.getElementById('product-list');
@@ -68,12 +56,20 @@
             const response = await fetch(url);
             let products = await response.json();
 
+            console.log("Dữ liệu 1 sản phẩm mẫu:", products[0]);
+
             if (categoryId) {
-                products = products.filter(p => p.categoryId == categoryId);
+                products = products.filter(p => {
+                    // Lấy ra giá trị category id từ API (bất kể nó viết hoa chữ C hay chữ c)
+                    let apiCatId = p.categoryId || p.CategoryId;
+                    
+                    // So sánh dưới dạng chuỗi (String) để tránh lỗi kiểu dữ liệu
+                    return String(apiCatId) === String(categoryId);
+                });
             }
 
             if (!products || products.length === 0) {
-                container.innerHTML = '<div class="col-12 text-center text-muted">Không tìm thấy sản phẩm nào phù hợp.</div>';
+                container.innerHTML = '<div class="col-12 text-center text-muted">Không tìm thấy sản phẩm nào thuộc danh mục này.</div>';
                 return;
             }
 
@@ -96,10 +92,16 @@
                             <p class="fw-bold text-danger mt-auto">
                                 ${Number(item.price).toLocaleString('vi-VN')} đ
                             </p>
-                            <button class="btn btn-primary btn-sm mt-2"
-                                    onclick="addToCart(${item.id})">
-                                <i class="bi bi-cart-plus"></i> Đặt hàng
-                            </button>
+                            <div class="d-flex justify-content-between mt-auto pt-2">
+                                <button class="btn btn-outline-danger btn-sm w-50 me-1" title="Thêm vào giỏ hàng"
+                                        onclick="addToCart(${item.id}, '${item.productName || item.name}', ${item.price}, '${item.image || 'default.jpg'}')">
+                                    <i class="bi bi-cart-plus"></i> Giỏ hàng
+                                </button>
+                                <button class="btn btn-danger btn-sm w-50 ms-1"
+                                        onclick="buyNow(${item.id}, '${item.productName || item.name}', ${item.price}, '${item.image || 'default.jpg'}')">
+                                    Mua ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -107,15 +109,14 @@
 
         } catch (error) {
             console.error("Lỗi load sản phẩm:", error);
-            container.innerHTML = '<div class="col-12 text-center text-danger">Có lỗi xảy ra khi tải dữ liệu.</div>';
+            container.innerHTML = '<div class="col-12 text-center text-danger">Có lỗi xảy ra khi tải dữ liệu. (Vui lòng kiểm tra lại đường dẫn API)</div>';
         } finally {
             loading.classList.add('d-none');
         }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        loadCategories();
-        loadProducts();   
+        loadProducts();
     });
 
     document.getElementById('searchInput').addEventListener('keypress', function (e) {
@@ -123,4 +124,53 @@
             loadProducts();
         }
     });
+
+    function addToCart(id, name, price, image, showAlert = true) {
+        if (!isAuthenticated) {
+            alert("Bạn vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+            window.location.href = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+            return;
+        }
+
+        let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        let item = cart.find(p => p.id === id);
+
+        if (item) {
+            item.quantity += 1;
+        } else {
+            cart.push({ id: id, name: name, price: price, image: image, quantity: 1 });
+        }
+
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+        if (typeof updateCartCount === "function") {
+            updateCartCount();
+        }
+
+        if (showAlert) {
+            alert(`Đã thêm "${name}" vào giỏ hàng thành công!`);
+        }
+    }
+
+    function buyNow(id, name, price, image) {
+        if (!isAuthenticated) {
+            alert("Bạn vui lòng đăng nhập để thực hiện mua hàng!");
+            window.location.href = '/Account/Login?ReturnUrl=' + encodeURIComponent(window.location.pathname);
+            return;
+        }
+
+        const buyNowItem = { id: id, name: name, price: price, image: image, quantity: 1 };
+        sessionStorage.setItem('buy_now_item', JSON.stringify(buyNowItem));
+        
+        sessionStorage.setItem('checkout_type', 'buy_now');
+        window.location.href = '/Cart';
+    }
+
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cart-count').innerText = total;
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartCount);
 </script>

@@ -27,6 +27,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ProductRepository>();
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddScoped<CategoryRepository>(provider => new CategoryRepository(connString));
+builder.Services.AddScoped<CategoryService>(provider => new CategoryService(connString));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();

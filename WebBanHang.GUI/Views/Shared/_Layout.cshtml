@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebBanHang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -34,6 +36,15 @@
                 <ul class="navbar-nav ms-auto">
                     @if (User?.Identity?.IsAuthenticated == true)
                     {
+                        <li class="nav-item me-3 d-flex align-items-center">
+                            <a class="nav-link position-relative" href="/Cart">
+                                <i class="bi bi-cart4 fs-4"></i>
+                                <span id="cart-count" class="position-absolute top-25 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                                    0
+                                </span>
+                            </a>
+                        </li>
+                        
                         <li class="nav-item">
                             <span class="nav-link text-info">
                                 Xin chào, @User.Identity.Name!
@@ -69,7 +80,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const API_BASE = window.location.origin + "/api"; 
+        const isAuthenticated = @(User?.Identity?.IsAuthenticated == true ? "true" : "false");
+        const currentUser = "@(User?.Identity?.Name ?? "")";
+        const CART_KEY = currentUser ? "cart_" + currentUser : "cart";
+        const API_BASE = window.location.origin + "/api";
 
         async function callApi(endpoint, method = "GET", data = null) {
             const cleanEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
@@ -102,6 +116,19 @@
                 return { success: false, message: "Lỗi kết nối mạng" };
             }
         }
+
+        function updateCartCount() {
+            if (!isAuthenticated) return;
+
+            let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let countBadge = document.getElementById('cart-count');
+            if (countBadge) {
+            countBadge.innerText = total;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", updateCartCount);
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
