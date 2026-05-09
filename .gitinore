@@ -1,0 +1,34 @@
+# =========================================
+# Visual Studio / .NET
+# =========================================
+
+# Thư mục build
+[Bb]in/
+[Oo]bj/
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+.DS_Store
+Thumbs.db
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# appsettings.Development.json
+
+# File log
+*.log
+
+*.mdf
+*.ldf
+*.ndf
+
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+node_modules/
