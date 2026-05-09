@@ -60,3 +60,29 @@ BEGIN
     SELECT @TotalValue = SUM(Price * Quantity) FROM Products;
     RETURN ISNULL(@TotalValue, 0);
 END;
+GO
+
+-- trigger tồn kho 
+
+USE [WebBanHang]
+GO
+
+CREATE TRIGGER trg_UpdateProductQuantity
+ON [dbo].[OrderDetails]
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE p
+    SET p.Quantity = p.Quantity - i.Quantity
+    FROM [dbo].[Products] p
+    INNER JOIN inserted i ON p.Id = i.ProductId;
+
+    IF EXISTS (SELECT 1 FROM [dbo].[Products] p INNER JOIN inserted i ON p.Id = i.ProductId WHERE p.Quantity < 0)
+    BEGIN
+        RAISERROR ('Số lượng tồn kho không đủ để thực hiện đơn hàng này!', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END
+GO
