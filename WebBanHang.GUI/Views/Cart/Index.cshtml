@@ -1,0 +1,195 @@
+﻿@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Giỏ hàng của bạn</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Tóm tắt đơn hàng</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tổng số lượng:</span>
+                        <strong id="total-qty">0</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-danger fs-5">
+                        <span>Tổng tiền:</span>
+                        <strong id="total-price">0 đ</strong>
+                    </div>
+                    <button class="btn btn-success w-100 fw-bold" onclick="checkout()">
+                        Xác nhận Thanh toán
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cartData = [];
+    let isBuyNow = sessionStorage.getItem('checkout_type') === 'buy_now';
+
+    function loadCartPage() {
+        if (isBuyNow) {
+            let item = JSON.parse(sessionStorage.getItem('buy_now_item'));
+            cartData = item ? [item] : [];
+        } else {
+            cartData = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        }
+
+        renderCart();
+    }
+
+    function renderCart() {
+        const tbody = document.getElementById('cart-items');
+        
+        if (cartData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Giỏ hàng trống. Hãy mua sắm thêm nhé!</td></tr>';
+            document.getElementById('total-qty').innerText = "0";
+            document.getElementById('total-price').innerText = "0 đ";
+            return;
+        }
+
+        let totalQty = 0;
+        let totalPrice = 0;
+
+        tbody.innerHTML = cartData.map((item, index) => {
+            totalQty += item.quantity;
+            let subTotal = item.price * item.quantity;
+            totalPrice += subTotal;
+
+            return `
+                <tr>
+                    <td class="text-start">
+                        <div class="d-flex align-items-center">
+                            <img src="/Content/images/${item.image || 'default.jpg'}" width="60" class="me-3 rounded" style="object-fit:cover;" onerror="this.src='https://placehold.co/60x60?text=No+Image'"/>
+                            <span class="fw-bold">${item.name}</span>
+                        </div>
+                    </td>
+                    <td class="text-danger fw-bold">${Number(item.price).toLocaleString('vi-VN')} đ</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary" onclick="updateQty(${index}, -1)">-</button>
+                            <span class="btn btn-light disabled text-dark" style="width: 40px;">${item.quantity}</span>
+                            <button class="btn btn-outline-secondary" onclick="updateQty(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td class="text-danger fw-bold">${Number(subTotal).toLocaleString('vi-VN')} đ</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        document.getElementById('total-qty').innerText = totalQty;
+        document.getElementById('total-price').innerText = Number(totalPrice).toLocaleString('vi-VN') + " đ";
+    }
+
+    function updateQty(index, change) {
+        if (cartData[index].quantity + change > 0) {
+            cartData[index].quantity += change;
+            saveAndRender();
+        }
+    }
+
+    function removeItem(index) {
+        if (confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+            cartData.splice(index, 1);
+            saveAndRender();
+        }
+    }
+
+    function saveAndRender() {
+        if (isBuyNow) {
+            if (cartData.length === 0) {
+                sessionStorage.removeItem('buy_now_item');
+                sessionStorage.removeItem('checkout_type');
+                window.location.href = '/Product';
+            } else {
+                sessionStorage.setItem('buy_now_item', JSON.stringify(cartData[0]));
+            }
+        } else {
+            localStorage.setItem(CART_KEY, JSON.stringify(cartData));
+            if (typeof updateCartCount === "function") updateCartCount();
+        }
+        renderCart();
+    }
+
+    async function checkout() {
+        if (cartData.length === 0) {
+            alert("Giỏ hàng đang trống!");
+            return;
+        }
+
+        const payload = {
+            userId: "",
+            items: cartData.map(item => ({
+                id: item.id,
+                quantity: item.quantity,
+                price: item.price
+            }))
+        };
+
+        const btnCheckout = document.querySelector('.btn-success');
+        btnCheckout.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Đang xử lý...';
+        btnCheckout.disabled = true;
+
+        try {
+            const response = await fetch('/api/Order/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("🎉 Đặt hàng thành công!");
+                
+                if (isBuyNow) {
+                    sessionStorage.removeItem('buy_now_item');
+                    sessionStorage.removeItem('checkout_type');
+                } else {
+                    localStorage.setItem(CART_KEY, JSON.stringify([]));
+                    if (typeof updateCartCount === "function") updateCartCount();
+                }
+                
+                window.location.href = '/Product';
+            } else {
+                alert("Lỗi: " + result.message);
+            }
+        } catch (error) {
+            console.error("Lỗi:", error);
+            alert("Lỗi kết nối mạng!");
+        } finally {
+            btnCheckout.innerHTML = 'Xác nhận Thanh toán';
+            btnCheckout.disabled = false;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadCartPage);
+</script>

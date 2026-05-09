@@ -32,6 +32,9 @@ namespace WebBanHang.DAL
                 entity.Property(v => v.CategoryName).HasColumnName("CategoryName");
             });
 
+            builder.Entity<OrderDetail>()
+                .ToTable(tb => tb.HasTrigger("trg_UpdateProductQuantity"));
+
             builder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Thiết bị điện tử" },
                 new Category { Id = 2, Name = "Laptop" },

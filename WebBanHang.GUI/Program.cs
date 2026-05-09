@@ -31,6 +31,9 @@ string connString = builder.Configuration.GetConnectionString("DefaultConnection
 builder.Services.AddScoped<CategoryRepository>(provider => new CategoryRepository(connString));
 builder.Services.AddScoped<CategoryService>(provider => new CategoryService(connString));
 
+builder.Services.AddScoped<WebBanHang.DAL.OrderDAL>();
+builder.Services.AddScoped<WebBanHang.BLL.OrderBLL>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
