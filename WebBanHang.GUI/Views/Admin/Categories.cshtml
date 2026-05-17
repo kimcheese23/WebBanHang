@@ -64,9 +64,17 @@
         }
 
         async function deleteCategory(id) {
-            if(!confirm("Xóa danh mục này? Sản phẩm liên quan sẽ được chuyển về mặc định.")) return;
-            const res = await callApi(`${API_URL}/${id}`, "DELETE");
-            if(res) loadCategories();
+            if (confirm("Bạn có chắc chắn muốn xóa danh mục này?")) {
+                const result = await callApi(`/api/CategoryApi/${id}`, 'DELETE');
+
+                if (result === true) {
+                    alert("Xóa thành công! Các sản phẩm đã được dời sang mục Không xác định (nếu có).");
+                    window.location.reload();
+                }
+                else if (result && result.message) {
+                    alert(result.message);
+                }
+            }
         }
 
         function renderTable(data) {

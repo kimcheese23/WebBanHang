@@ -58,19 +58,39 @@ namespace WebBanHang.GUI.Controllers
 
             return Ok(stats);
         }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)
         {
             var category = db.Categories.Find(id);
-            if (category == null) return NotFound();
+            if (category == null) return NotFound(new { message = "Không tìm thấy danh mục!" });
+
+            if (category.Name.ToLower().Contains("không xác định"))
+            {
+                return BadRequest(new { message = "Bạn tuyệt đối không được xóa danh mục mặc định này!" });
+            }
+
+            var defaultCategory = db.Categories.FirstOrDefault(c => c.Name.ToLower().Contains("không xác định"));
+
+            if (defaultCategory == null)
+            {
+                defaultCategory = new Category { Name = "Không xác định" };
+                db.Categories.Add(defaultCategory);
+                db.SaveChanges();
+            }
+
+            if (category.Id == defaultCategory.Id)
+            {
+                return BadRequest(new { message = "Không thể xóa danh mục hệ thống!" });
+            }
+
             var products = db.Products.Where(p => p.CategoryId == id).ToList();
 
             foreach (var p in products)
             {
-                p.CategoryId = 3; 
+                p.CategoryId = defaultCategory.Id;
             }
 
+            db.SaveChanges();
             db.Categories.Remove(category);
             db.SaveChanges();
 

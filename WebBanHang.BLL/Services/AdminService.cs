@@ -41,5 +41,9 @@ namespace WebBanHang.BLL.Services
         {
             return await _adminRepo.GetTopSellingProductsAsync(topCount);
         }
+        public List<OrderHistoryDTO> GetOrderHistory(int orderId)
+        {
+            return _adminRepo.GetOrderHistory(orderId);
+        }
     }
 }
