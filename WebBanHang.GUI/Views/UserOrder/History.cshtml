@@ -1,0 +1,137 @@
+﻿@model List<WebBanHang.DTO.Responses.UserOrderHistoryDTO>
+@{
+    ViewData["Title"] = "Lịch sử mua hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4 fw-bold">Đơn hàng của tôi</h2>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">@TempData["Message"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <ul class="nav nav-pills mb-4 shadow-sm p-2 bg-white rounded" id="orderTabs">
+        <li class="nav-item">
+            <a class="nav-link active fw-bold cursor-pointer" data-status="all">Tất cả</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold cursor-pointer" data-status="0">Chờ xác nhận</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold cursor-pointer" data-status="1">Chờ lấy hàng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold cursor-pointer" data-status="2">Đang giao</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold cursor-pointer" data-status="3">Đã giao</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold cursor-pointer" data-status="4">Đã hủy</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="col-12 text-center py-5">
+                <h5 class="text-muted">Bạn chưa có đơn hàng nào.</h5>
+                <a href="/Product" class="btn btn-primary mt-3">Mua sắm ngay</a>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-12 mb-3 order-item" data-status="@item.Status">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="fw-bold mb-1">Đơn hàng #@item.OrderId</h5>
+                                <p class="text-muted mb-1"><small>Ngày đặt: @item.OrderDate.ToString("dd/MM/yyyy HH:mm")</small></p>
+                                <p class="mb-0">
+                                    Sản phẩm: <span class="fw-semibold">@item.FirstProductName</span>
+                                    @(item.TotalAmount > 0 ? "..." : "")
+                                </p>
+                            </div>
+                            <div class="text-end">
+                                <h5 class="text-danger fw-bold mb-2">@item.TotalAmount.ToString("N0") đ</h5>
+                                
+                                @switch (item.Status)
+                                {
+                                    case 0:
+                                        <span class="badge bg-warning text-dark px-3 py-2">Chờ xác nhận</span>
+                                        break;
+                                    case 1:
+
+                                        <span class="badge bg-info text-dark px-3 py-2">Chờ lấy hàng</span>
+                                        break;
+                                    case 2:
+
+                                        <span class="badge bg-primary px-3 py-2">Đang giao</span>
+                                        break;
+                                    case 3:
+
+                                        <span class="badge bg-success px-3 py-2">Đã giao</span>
+                                        break;
+                                    case 4:
+
+                                        <span class="badge bg-danger px-3 py-2">Đã hủy</span>
+                                        break;
+                                }
+
+                                @if (item.Status == 0 || item.Status == 1)
+                                {
+                                    <form asp-action="Cancel" asp-controller="UserOrder" method="post" class="mt-2 d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                                        <input type="hidden" name="orderId" value="@item.OrderId" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Hủy đơn</button>
+                                    </form>
+                                }
+                                @if (item.Status == 3)
+                                {
+                                    <a href="/Product/Details/@item.OrderId" class="btn btn-outline-success btn-sm mt-2">Đánh giá</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<style>
+    .cursor-pointer { cursor: pointer; }
+    .nav-pills .nav-link { color: #495057; }
+    .nav-pills .nav-link.active { background-color: #ee4d2d; color: white; } /* Màu cam Shopee */
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll("#orderTabs .nav-link");
+        const items = document.querySelectorAll(".order-item");
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function () {
+                tabs.forEach(t => t.classList.remove("active"));
+                this.classList.add("active");
+
+                const status = this.getAttribute("data-status");
+
+                items.forEach(item => {
+                    if (status === "all" || item.getAttribute("data-status") === status) {
+                        item.style.display = "block";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            });
+        });
+    });
+</script>

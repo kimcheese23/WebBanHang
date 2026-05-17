@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebBanHang.BLL;
+using System.IO;
+using System.Threading.Tasks;
+using System;
 using WebBanHang.BLL.Services;
 using WebBanHang.DTO.Entity;
+using WebBanHang.DTO.Responses;
+using Microsoft.AspNetCore.Http;
 
 namespace WebBanHang.GUI.Controllers
 {
@@ -31,7 +35,7 @@ namespace WebBanHang.GUI.Controllers
         [HttpGet("details")]
         public async Task<IActionResult> GetProductDetails()
         {
-            var data = await s.GetProductDetailsAsync(); 
+            var data = await s.GetProductDetailsAsync();
             return Ok(data);
         }
 
@@ -39,12 +43,11 @@ namespace WebBanHang.GUI.Controllers
         public IActionResult Search([FromQuery] string name)
         {
             var results = s.SearchProducts(name);
-            return Ok(results); 
+            return Ok(results);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        [HttpPost]
         public async Task<IActionResult> Create([FromForm] Product product, IFormFile? ImageFile)
         {
             product.Image = await HandleFileUpload(ImageFile) ?? "default.jpg";

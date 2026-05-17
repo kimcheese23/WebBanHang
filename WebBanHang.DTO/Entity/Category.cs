@@ -9,9 +9,13 @@ namespace WebBanHang.DTO.Entity
 {
     public class Category
     {
+        [Key]
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Tên danh mục không được để trống")]
+        [StringLength(100)]
         public required string Name { get; set; }
 
-        public virtual ICollection<Product> Product { get; set; } = new List<Product>();
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

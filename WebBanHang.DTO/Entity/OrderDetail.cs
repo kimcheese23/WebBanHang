@@ -16,14 +16,12 @@ namespace WebBanHang.DTO.Entity
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product? Product { get; set; }
+
         public int Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
 
-        public decimal TotalPrice
-        {
-            get { return Quantity * UnitPrice; }
-            private set {  }
-        }
+        [NotMapped]
+        public decimal TotalPrice => Quantity * UnitPrice;
     }
 }

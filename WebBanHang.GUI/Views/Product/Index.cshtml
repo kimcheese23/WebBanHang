@@ -60,10 +60,8 @@
 
             if (categoryId) {
                 products = products.filter(p => {
-                    // Lấy ra giá trị category id từ API (bất kể nó viết hoa chữ C hay chữ c)
                     let apiCatId = p.categoryId || p.CategoryId;
                     
-                    // So sánh dưới dạng chuỗi (String) để tránh lỗi kiểu dữ liệu
                     return String(apiCatId) === String(categoryId);
                 });
             }
@@ -76,10 +74,13 @@
             container.innerHTML = products.map(item => `
                 <div class="col-md-3 mb-4">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="/Content/images/${item.image || 'default.jpg'}"
-                                class="card-img-top"
-                                style="height:200px; object-fit:cover;"
-                                onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
+                        
+                        <a href="/Product/Details/${item.id}">
+                            <img src="/Content/images/${item.image || 'default.jpg'}"
+                                    class="card-img-top"
+                                    style="height:200px; object-fit:cover;"
+                                    onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
+                        </a>
 
                         <div class="card-body text-center d-flex flex-column">
                             <h6 class="card-title">
@@ -164,12 +165,6 @@
         
         sessionStorage.setItem('checkout_type', 'buy_now');
         window.location.href = '/Cart';
-    }
-
-    function updateCartCount() {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let total = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.getElementById('cart-count').innerText = total;
     }
 
     document.addEventListener("DOMContentLoaded", updateCartCount);

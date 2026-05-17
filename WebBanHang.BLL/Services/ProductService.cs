@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebBanHang.DAL.Repositories;
 using WebBanHang.DTO.Entity;
+using WebBanHang.DTO.Responses;
 
 namespace WebBanHang.BLL.Services
 {
@@ -25,7 +26,7 @@ namespace WebBanHang.BLL.Services
             return repo.Search(keyword);
         }
 
-        public async Task<IEnumerable<ProductDetail>> GetProductDetailsAsync()
+        public async Task<IEnumerable<ProductDetailDTO>> GetProductDetailsAsync()
         {
             return await repo.GetAllProductDetailsAsync();
         }
