@@ -62,41 +62,47 @@
                             </div>
                             <div class="text-end">
                                 <h5 class="text-danger fw-bold mb-2">@item.TotalAmount.ToString("N0") đ</h5>
-                                
+
                                 @switch (item.Status)
                                 {
                                     case 0:
                                         <span class="badge bg-warning text-dark px-3 py-2">Chờ xác nhận</span>
                                         break;
                                     case 1:
-
                                         <span class="badge bg-info text-dark px-3 py-2">Chờ lấy hàng</span>
                                         break;
                                     case 2:
-
                                         <span class="badge bg-primary px-3 py-2">Đang giao</span>
                                         break;
                                     case 3:
-
                                         <span class="badge bg-success px-3 py-2">Đã giao</span>
                                         break;
                                     case 4:
-
                                         <span class="badge bg-danger px-3 py-2">Đã hủy</span>
                                         break;
                                 }
 
-                                @if (item.Status == 0 || item.Status == 1)
-                                {
-                                    <form asp-action="Cancel" asp-controller="UserOrder" method="post" class="mt-2 d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-                                        <input type="hidden" name="orderId" value="@item.OrderId" />
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">Hủy đơn</button>
-                                    </form>
-                                }
-                                @if (item.Status == 3)
-                                {
-                                    <a href="/Product/Details/@item.OrderId" class="btn btn-outline-success btn-sm mt-2">Đánh giá</a>
-                                }
+                                <div class="mt-2">
+                                    <a href="/UserOrder/Details/@item.OrderId" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-eye"></i> Chi tiết
+                                    </a>
+
+                                    @if (item.Status == 0 || item.Status == 1)
+                                    {
+                                        <form asp-action="Cancel" asp-controller="UserOrder" method="post" class="d-inline ms-1" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                                            <input type="hidden" name="orderId" value="@item.OrderId" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-x-circle"></i> Hủy
+                                            </button>
+                                        </form>
+                                    }
+                                    @if (item.Status == 3)
+                                    {
+                                        <a href="/UserOrder/Details/@item.OrderId" class="btn btn-sm btn-warning fw-bold ms-1 text-dark">
+                                            <i class="bi bi-star-fill"></i> Đánh giá
+                                        </a>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -107,9 +113,18 @@
 </div>
 
 <style>
-    .cursor-pointer { cursor: pointer; }
-    .nav-pills .nav-link { color: #495057; }
-    .nav-pills .nav-link.active { background-color: #ee4d2d; color: white; } /* Màu cam Shopee */
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .nav-pills .nav-link {
+        color: #495057;
+    }
+
+        .nav-pills .nav-link.active {
+            background-color: #ee4d2d;
+            color: white;
+        }
 </style>
 
 <script>

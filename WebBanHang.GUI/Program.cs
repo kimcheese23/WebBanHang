@@ -51,7 +51,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Seed dữ liệu 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -69,7 +68,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

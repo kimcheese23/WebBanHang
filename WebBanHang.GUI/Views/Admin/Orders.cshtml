@@ -4,6 +4,46 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
+<style>
+    .timeline {
+        border-left: 2px solid #0d6efd;
+        padding-left: 20px;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+        }
+
+    .timeline-date {
+        font-size: 0.85rem;
+        color: #6c757d;
+        font-weight: bold;
+    }
+
+    .timeline-content {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        margin-top: 5px;
+    }
+</style>
+
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Danh sách Hóa đơn</h2>
@@ -41,29 +81,41 @@
                                                 <span class="badge bg-warning text-dark px-3 py-2">Chờ xác nhận</span>
                                                 break;
                                             case 1:
+
                                                 <span class="badge bg-info text-dark px-3 py-2">Chờ lấy hàng</span>
                                                 break;
                                             case 2:
+
                                                 <span class="badge bg-primary px-3 py-2">Đang giao</span>
                                                 break;
                                             case 3:
+
                                                 <span class="badge bg-success px-3 py-2">Đã giao</span>
                                                 break;
                                             case 4:
+
                                                 <span class="badge bg-danger px-3 py-2">Đã hủy</span>
                                                 break;
                                         }
                                     </td>
                                     <td>
-                                        <select id="status-@item.OrderId" class="form-select form-select-sm d-inline w-auto border-secondary"
-                                                onchange="updateOrderStatus(@item.OrderId, this)">
-                                            <option value="" disabled selected>-- Cập nhật --</option>
-                                            <option value="0">Chờ xác nhận</option>
-                                            <option value="1">Chờ lấy hàng</option>
-                                            <option value="2">Đang giao</option>
-                                            <option value="3">Đã giao</option>
-                                            <option value="4">Hủy đơn</option>
-                                        </select>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <select id="status-@item.OrderId" class="form-select form-select-sm d-inline w-auto border-secondary"
+                                                    onchange="updateOrderStatus(@item.OrderId, this)">
+                                                <option value="" disabled selected>-- Cập nhật --</option>
+                                                <option value="0">Chờ xác nhận</option>
+                                                <option value="1">Chờ lấy hàng</option>
+                                                <option value="2">Đang giao</option>
+                                                <option value="3">Đã giao</option>
+                                                <option value="4">Hủy đơn</option>
+                                            </select>
+                                            <button class="btn btn-sm btn-outline-info ms-2" onclick="viewHistory(@item.OrderId)">
+                                                <i class="bi bi-clock-history"></i> Lịch sử
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success ms-2" onclick="viewOrderDetails(@item.OrderId)">
+                                                <i class="bi bi-list-check"></i> Chi tiết
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -81,11 +133,52 @@
     </div>
 </div>
 
+<div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><i class="bi bi-journal-text"></i> Lịch sử cập nhật Đơn #<span id="lblHistoryOrderId"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="historyContent"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="bi bi-box-seam"></i> Chi tiết Đơn hàng #<span id="lblDetailOrderId"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th class="text-start">Tên sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>SL</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderDetailsContent">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         function updateOrderStatus(orderId, selectElement) {
             const newStatus = selectElement.value;
-            
             if (!confirm("Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng này?")) {
                 selectElement.value = "";
                 return;
@@ -95,24 +188,94 @@
             formData.append('orderId', orderId);
             formData.append('newStatus', newStatus);
 
-            fetch('/Admin/ChangeOrderStatus', {
-                method: 'POST',
-                body: formData
-            })
+            fetch('/Admin/ChangeOrderStatus', { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                } else {
-                    alert("Lỗi: " + data.message);
-                }
+                if (data.success) alert(data.message);
+                else alert("Lỗi: " + data.message);
                 window.location.reload();
             })
             .catch(error => {
-                console.error("Lỗi:", error);
                 alert("Đã xảy ra lỗi kết nối với hệ thống!");
                 window.location.reload();
             });
+        }
+
+        function viewHistory(orderId) {
+            document.getElementById('lblHistoryOrderId').innerText = orderId;
+            const contentDiv = document.getElementById('historyContent');
+            contentDiv.innerHTML = '<div class="text-center my-4"><div class="spinner-border text-primary" role="status"></div><p>Đang tải lịch sử...</p></div>';
+
+            var myModal = new bootstrap.Modal(document.getElementById('historyModal'));
+            myModal.show();
+
+            fetch(`/Admin/GetOrderHistory?orderId=${orderId}`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        const data = res.data;
+                        if (data.length === 0) {
+                            contentDiv.innerHTML = '<div class="alert alert-secondary text-center">Đơn hàng mới tạo. Chưa có lịch sử cập nhật.</div>';
+                            return;
+                        }
+                        let html = '<div class="timeline">';
+                        data.forEach(item => {
+                            let dateObj = new Date(item.changedDate);
+                            let timeStr = dateObj.toLocaleString('vi-VN', { hour: '2-digit', minute:'2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+                            html += `
+                                <div class="timeline-item">
+                                    <div class="timeline-date"><i class="bi bi-calendar-event"></i> ${timeStr}</div>
+                                    <div class="timeline-content">
+                                        Đổi từ: <span class="badge bg-secondary">${item.oldStatusName}</span>
+                                        <i class="bi bi-arrow-right mx-1"></i>
+                                        Sang: <span class="badge bg-success">${item.newStatusName}</span>
+                                    </div>
+                                </div>`;
+                        });
+                        html += '</div>';
+                        contentDiv.innerHTML = html;
+                    } else contentDiv.innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+                })
+                .catch(err => contentDiv.innerHTML = '<div class="alert alert-danger">Lỗi kết nối máy chủ!</div>');
+        }
+
+        function viewOrderDetails(orderId) {
+            document.getElementById('lblDetailOrderId').innerText = orderId;
+            const contentBody = document.getElementById('orderDetailsContent');
+            contentBody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border text-success" role="status"></div><p>Đang tải dữ liệu...</p></td></tr>';
+
+            var myModal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+            myModal.show();
+
+            fetch(`/Admin/GetOrderDetails?orderId=${orderId}`)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        const data = res.data;
+                        if (data.length === 0) {
+                            contentBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Không có sản phẩm nào trong đơn này.</td></tr>';
+                            return;
+                        }
+                        let html = '';
+                        data.forEach(item => {
+                            const priceStr = item.unitPrice.toLocaleString('vi-VN') + ' đ';
+                            const totalStr = item.totalPrice.toLocaleString('vi-VN') + ' đ';
+                            const isDeleted = item.isDeleted === true || item.isDeleted === 1 || item.isDeleted === "1" || item.isDeleted === "True";
+                            const prodName = isDeleted ? `<span class="text-muted">${item.productName} <br><small class="text-danger">(Đã ngưng KD)</small></span>` : `<span class="fw-bold">${item.productName}</span>`;
+
+                            html += `
+                                <tr>
+                                    <td><img src="/Content/images/${item.productImage}" width="50" class="rounded shadow-sm" style="object-fit:cover;" onerror="this.src='https://placehold.co/50x50?text=No+Image'" /></td>
+                                    <td class="text-start">${prodName}</td>
+                                    <td>${priceStr}</td>
+                                    <td><span class="badge bg-secondary">${item.quantity}</span></td>
+                                    <td class="text-danger fw-bold">${totalStr}</td>
+                                </tr>`;
+                        });
+                        contentBody.innerHTML = html;
+                    } else contentBody.innerHTML = `<tr><td colspan="5" class="text-danger py-4">${res.message}</td></tr>`;
+                })
+                .catch(err => contentBody.innerHTML = '<tr><td colspan="5" class="text-danger py-4">Lỗi kết nối máy chủ!</td></tr>');
         }
     </script>
 }

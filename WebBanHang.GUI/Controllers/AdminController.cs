@@ -89,5 +89,44 @@ namespace WebBanHang.Controllers
                 return BadRequest(new { success = false, message = ex.Message });
             }
         }
+        [HttpGet]
+        public IActionResult GetOrderHistory(int orderId)
+        {
+            try
+            {
+                var history = _adminService.GetOrderHistory(orderId);
+                return Ok(new { success = true, data = history });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetOrderDetails(int orderId)
+        {
+            try
+            {
+                var orderDetails = await db.OrderDetails
+                    .Include(od => od.Product)
+                    .Where(od => od.OrderId == orderId)
+                    .Select(od => new {
+                        productName = od.Product.Name,
+                        productImage = od.Product.Image ?? "default.jpg",
+                        unitPrice = od.UnitPrice,
+                        quantity = od.Quantity,
+                        totalPrice = od.UnitPrice * od.Quantity,
+                        isDeleted = od.Product.IsDeleted
+                    })
+                    .ToListAsync();
+
+                return Ok(new { success = true, data = orderDetails });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
     }
 }

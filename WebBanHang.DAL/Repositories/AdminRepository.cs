@@ -84,15 +84,15 @@ namespace WebBanHang.DAL.Repositories
 
         public async Task<DashboardSummaryDTO> GetDashboardSummaryAsync()
         {
-            var stockValueQuery = _context.Database.SqlQueryRaw<decimal>("SELECT dbo.fn_CalculateStock() AS Value");
-            decimal stockValue = await stockValueQuery.FirstOrDefaultAsync();
+            var revenueQuery = _context.Database.SqlQueryRaw<decimal>("SELECT dbo.fn_CalculateTotalRevenue() AS Value");
+            decimal totalRevenue = await revenueQuery.FirstOrDefaultAsync();
 
             int totalProducts = await _context.Products.CountAsync(p => !p.IsDeleted);
             int totalOrders = await _context.Orders.CountAsync(o => o.Status == 3);
 
             return new DashboardSummaryDTO
             {
-                TotalStockValue = stockValue,
+                TotalStockValue = totalRevenue,
                 TotalProducts = totalProducts,
                 TotalOrders = totalOrders
             };
@@ -114,6 +114,36 @@ namespace WebBanHang.DAL.Repositories
                 "EXEC dbo.sp_GetTopSellingProducts @TopCount", topParam);
 
             return await query.ToListAsync();
+        }
+
+        public List<OrderHistoryDTO> GetOrderHistory(int orderId)
+        {
+            var historyList = new List<OrderHistoryDTO>();
+            string? connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT OldStatus, NewStatus, ChangedDate FROM OrderStatusLogs WHERE OrderId = @OrderId ORDER BY ChangedDate ASC";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@OrderId", orderId);
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            historyList.Add(new OrderHistoryDTO
+                            {
+                                OldStatus = reader["OldStatus"] != DBNull.Value ? Convert.ToInt32(reader["OldStatus"]) : 0,
+                                NewStatus = reader["NewStatus"] != DBNull.Value ? Convert.ToInt32(reader["NewStatus"]) : 0,
+                                ChangedDate = Convert.ToDateTime(reader["ChangedDate"])
+                            });
+                        }
+                    }
+                }
+            }
+            return historyList;
         }
     }
 }

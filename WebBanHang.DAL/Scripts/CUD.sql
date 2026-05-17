@@ -253,3 +253,17 @@ BEGIN
     );
 END
 GO
+
+CREATE OR ALTER FUNCTION dbo.fn_CalculateTotalRevenue()
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+    DECLARE @TotalRevenue DECIMAL(18,2);
+    
+    SELECT @TotalRevenue = SUM(dbo.fn_GetOrderTotal(Id)) 
+    FROM dbo.Orders 
+    WHERE Status = 3;
+    
+    RETURN ISNULL(@TotalRevenue, 0);
+END;
+GO
