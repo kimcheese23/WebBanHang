@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using WebBanHang.DAL;
 using WebBanHang.DTO.Entity;
 
@@ -8,7 +11,7 @@ namespace WebBanHang.GUI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class CategoryApiController: ControllerBase
+    public class CategoryApiController : ControllerBase
     {
         private readonly MyDbContext db;
 
@@ -16,85 +19,129 @@ namespace WebBanHang.GUI.Controllers
         {
             this.db = db;
         }
+
         [HttpGet]
-        public IActionResult GetAll() => Ok(db.Categories.ToList());
+        public IActionResult GetAll()
+        {
+            var list = new List<Category>();
+            string? connectionString = db.Database.GetDbConnection().ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT Id, Name FROM Categories", conn))
+                {
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new Category
+                            {
+                                Id = reader.GetInt32(0),
+                                Name = reader.GetString(1)
+                            });
+                        }
+                    }
+                }
+            }
+            return Ok(list);
+        }
 
         [HttpGet("search")]
-        public IActionResult Search(string name)
+        public IActionResult Search(string? name)
         {
-            var result = db.Categories
-                .Where(c => c.Name.Contains(name))
-                .ToList();
-            return Ok(result);
+            var list = new List<Category>();
+            string? connectionString = db.Database.GetDbConnection().ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_SearchCategories", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Keyword", name ?? "");
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new Category
+                            {
+                                Id = reader.GetInt32(0),
+                                Name = reader.GetString(1)
+                            });
+                        }
+                    }
+                }
+            }
+            return Ok(list);
         }
 
         [HttpPost]
         public IActionResult Create(Category cat)
         {
-            db.Categories.Add(cat);
-            db.SaveChanges();
+            string? connectionString = db.Database.GetDbConnection().ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_AddCategory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", cat.Name);
+                    conn.Open();
+
+                    var id = cmd.ExecuteScalar();
+                    cat.Id = Convert.ToInt32(id);
+                }
+            }
             return Ok(cat);
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, Category cat)
         {
-            var existing = db.Categories.Find(id);
-            if (existing == null) return NotFound();
-            existing.Name = cat.Name;
-            db.SaveChanges();
-            return Ok(existing);
-        }
+            string? connectionString = db.Database.GetDbConnection().ConnectionString;
 
-        [HttpGet("categories-stat")]
-        public IActionResult GetCategoriesStat()
-        {
-            var stats = db.Categories.Select(c => new
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                Id = c.Id,
-                Name = c.Name,
-                ProductCount = db.Products.Count(p => p.CategoryId == c.Id)
-            }).ToList();
-
-            return Ok(stats);
+                using (SqlCommand cmd = new SqlCommand("sp_UpdateCategory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Name", cat.Name);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            return Ok(cat);
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)
         {
-            var category = db.Categories.Find(id);
-            if (category == null) return NotFound(new { message = "Không tìm thấy danh mục!" });
+            string? connectionString = db.Database.GetDbConnection().ConnectionString;
 
-            if (category.Name.ToLower().Contains("không xác định"))
+            try
             {
-                return BadRequest(new { message = "Bạn tuyệt đối không được xóa danh mục mặc định này!" });
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_DeleteCategory", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return NoContent();
             }
-
-            var defaultCategory = db.Categories.FirstOrDefault(c => c.Name.ToLower().Contains("không xác định"));
-
-            if (defaultCategory == null)
+            catch (SqlException ex)
             {
-                defaultCategory = new Category { Name = "Không xác định" };
-                db.Categories.Add(defaultCategory);
-                db.SaveChanges();
+                return BadRequest(new { message = ex.Message });
             }
-
-            if (category.Id == defaultCategory.Id)
+            catch (Exception ex)
             {
-                return BadRequest(new { message = "Không thể xóa danh mục hệ thống!" });
+                return BadRequest(new { message = "Lỗi hệ thống: " + ex.Message });
             }
-
-            var products = db.Products.Where(p => p.CategoryId == id).ToList();
-
-            foreach (var p in products)
-            {
-                p.CategoryId = defaultCategory.Id;
-            }
-
-            db.SaveChanges();
-            db.Categories.Remove(category);
-            db.SaveChanges();
-
-            return NoContent();
         }
     }
 }
