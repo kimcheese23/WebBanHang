@@ -41,7 +41,11 @@
         }
 
         async function searchCategory() {
-            const name = document.getElementById("searchCat").value;
+            const name = document.getElementById("searchCat").value.trim();
+            if (name === "") {
+                loadCategories();
+                return;
+            }
             const data = await callApi(`${API_URL}/search?name=${name}`);
             renderTable(data);
         }

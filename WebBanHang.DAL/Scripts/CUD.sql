@@ -42,6 +42,82 @@ BEGIN
     WHERE Name LIKE '%' + @Keyword + '%' AND IsDeleted = 0
 END
 GO
+
+-- 5
+CREATE OR ALTER PROCEDURE sp_AddCategory
+    @Name NVARCHAR(200)
+AS
+BEGIN
+    INSERT INTO Categories (Name) 
+    VALUES (@Name);
+    
+    SELECT CAST(SCOPE_IDENTITY() AS INT) AS Id;
+END
+GO
+
+-- 6
+CREATE OR ALTER PROCEDURE sp_UpdateCategory
+    @Id INT, 
+    @Name NVARCHAR(200)
+AS
+BEGIN
+    UPDATE Categories 
+    SET Name = @Name 
+    WHERE Id = @Id;
+END
+GO
+
+-- 7
+CREATE OR ALTER PROCEDURE sp_DeleteCategory 
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @CategoryName NVARCHAR(200);
+    SELECT @CategoryName = Name FROM Categories WHERE Id = @Id;
+
+    IF @CategoryName IS NULL RETURN;
+
+    IF LOWER(LTRIM(RTRIM(@CategoryName))) LIKE N'%không xác định%'
+    BEGIN
+        RAISERROR (N'HỆ THỐNG BẢO VỆ: Bạn tuyệt đối không được xóa danh mục mặc định này!', 16, 1);
+        RETURN;
+    END
+
+    DECLARE @DefaultCategoryId INT;
+    SELECT @DefaultCategoryId = Id FROM Categories WHERE LOWER(LTRIM(RTRIM(Name))) LIKE N'%không xác định%';
+
+    IF @DefaultCategoryId IS NULL
+    BEGIN
+        INSERT INTO Categories (Name) VALUES (N'Không xác định');
+        SET @DefaultCategoryId = SCOPE_IDENTITY();
+    END
+
+    IF @Id = @DefaultCategoryId
+    BEGIN
+        RAISERROR (N'HỆ THỐNG BẢO VỆ: Không thể xóa danh mục hệ thống!', 16, 1);
+        RETURN;
+    END
+
+    UPDATE Products 
+    SET CategoryId = @DefaultCategoryId 
+    WHERE CategoryId = @Id;
+
+    DELETE FROM Categories WHERE Id = @Id;
+END
+GO
+
+-- 8
+CREATE OR ALTER PROCEDURE sp_SearchCategories 
+    @Keyword NVARCHAR(100)
+AS
+BEGIN
+    SELECT Id, Name 
+    FROM Categories 
+    WHERE Name LIKE N'%' + @Keyword + N'%'
+END
+GO
 -- View
 -- 1
 CREATE OR ALTER VIEW View_ProductDetails AS
@@ -96,7 +172,7 @@ FROM dbo.Orders o
 LEFT JOIN dbo.ApplicationUser u ON o.UserId = u.Id;
 GO
 -- Procedure
--- 5
+-- 9
 CREATE OR ALTER PROCEDURE dbo.sp_GetAdminOrders
 AS
 BEGIN
@@ -189,7 +265,7 @@ RETURN (
 );
 GO
 -- Procedure
--- 6
+-- 10
 CREATE OR ALTER PROCEDURE sp_GetTopSellingProducts
     @TopCount INT
 AS
@@ -210,14 +286,6 @@ BEGIN
 END;
 GO
 
-CREATE TABLE OrderStatusLogs (
-    Id INT IDENTITY(1000,1) PRIMARY KEY,
-    OrderId INT,
-    OldStatus INT,
-    NewStatus INT,
-    ChangedDate DATETIME DEFAULT GETDATE()
-);
-GO
 -- Trgger 
 -- 2
 CREATE OR ALTER TRIGGER trg_LogOrderStatusChange
@@ -252,6 +320,27 @@ BEGIN
         ChangedDate DATETIME DEFAULT GETDATE()
     );
 END
+GO
+
+-- 3
+CREATE OR ALTER TRIGGER trg_RestoreProductQuantityOnCancel
+ON Orders
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    IF UPDATE(Status)
+    BEGIN
+        UPDATE p
+        SET p.Quantity = p.Quantity + od.Quantity
+        FROM Products p
+        JOIN OrderDetails od ON p.Id = od.ProductId
+        JOIN inserted i ON od.OrderId = i.Id
+        JOIN deleted d ON i.Id = d.Id
+        WHERE i.Status = 4 AND d.Status <> 4;
+    END
+END;
 GO
 
 CREATE OR ALTER FUNCTION dbo.fn_CalculateTotalRevenue()
