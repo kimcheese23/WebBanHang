@@ -12,7 +12,7 @@ using WebBanHang.DAL;
 namespace WebBanHang.DAL.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20260505125402_Initial")]
+    [Migration("20260517033555_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -242,7 +242,8 @@ namespace WebBanHang.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -282,8 +283,22 @@ namespace WebBanHang.DAL.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -310,9 +325,6 @@ namespace WebBanHang.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -322,7 +334,12 @@ namespace WebBanHang.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", t =>
+                        {
+                            t.HasTrigger("trg_UpdateProductQuantity");
+                        });
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("WebBanHang.DTO.Entity.Product", b =>
@@ -339,6 +356,9 @@ namespace WebBanHang.DAL.Migrations
                     b.Property<string>("Image")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -363,6 +383,7 @@ namespace WebBanHang.DAL.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Image = "iphone14.jpg",
+                            IsDeleted = false,
                             Name = "iPhone 14",
                             Price = 25000000m,
                             Quantity = 10
@@ -372,6 +393,7 @@ namespace WebBanHang.DAL.Migrations
                             Id = 2,
                             CategoryId = 2,
                             Image = "laptop.jpg",
+                            IsDeleted = false,
                             Name = "Laptop Dell",
                             Price = 20000000m,
                             Quantity = 10
@@ -381,6 +403,7 @@ namespace WebBanHang.DAL.Migrations
                             Id = 3,
                             CategoryId = 3,
                             Image = "airpods.jpg",
+                            IsDeleted = false,
                             Name = "Tai nghe AirPods Pro",
                             Price = 6000000m,
                             Quantity = 15
@@ -390,10 +413,50 @@ namespace WebBanHang.DAL.Migrations
                             Id = 4,
                             CategoryId = 4,
                             Image = "ipad.jpg",
+                            IsDeleted = false,
                             Name = "iPad Pro",
                             Price = 25000000m,
                             Quantity = 6
                         });
+                });
+
+            modelBuilder.Entity("WebBanHang.DTO.Entity.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -450,10 +513,8 @@ namespace WebBanHang.DAL.Migrations
             modelBuilder.Entity("WebBanHang.DTO.Entity.Order", b =>
                 {
                     b.HasOne("WebBanHang.DTO.Entity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -480,7 +541,7 @@ namespace WebBanHang.DAL.Migrations
             modelBuilder.Entity("WebBanHang.DTO.Entity.Product", b =>
                 {
                     b.HasOne("WebBanHang.DTO.Entity.Category", "Category")
-                        .WithMany("Product")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -488,19 +549,57 @@ namespace WebBanHang.DAL.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("WebBanHang.DTO.Entity.Review", b =>
+                {
+                    b.HasOne("WebBanHang.DTO.Entity.Order", "Order")
+                        .WithMany("Reviews")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebBanHang.DTO.Entity.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebBanHang.DTO.Entity.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebBanHang.DTO.Entity.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("WebBanHang.DTO.Entity.Category", b =>
                 {
-                    b.Navigation("Product");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("WebBanHang.DTO.Entity.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("WebBanHang.DTO.Entity.Product", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

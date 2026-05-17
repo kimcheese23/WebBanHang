@@ -18,7 +18,7 @@ namespace WebBanHang.DTO.Entity
 
         [Required(ErrorMessage = "Giá không được để trống")]
         [Range(0, double.MaxValue, ErrorMessage = "Giá phải >= 0")]
-        public decimal Price { get; set; }  
+        public decimal Price { get; set; }
 
         [Range(0, int.MaxValue)]
         public int Quantity { get; set; }
@@ -26,14 +26,14 @@ namespace WebBanHang.DTO.Entity
         [StringLength(500)]
         public string? Image { get; set; }
 
-      
-        [Display(Name = "Danh mục")]
         public int CategoryId { get; set; }
-
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     }
 }

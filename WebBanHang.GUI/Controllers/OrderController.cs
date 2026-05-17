@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WebBanHang.BLL;
+using WebBanHang.BLL.Services;
 using WebBanHang.DTO.Requests;
 
 namespace WebBanHang.GUI.Controllers
@@ -11,9 +11,9 @@ namespace WebBanHang.GUI.Controllers
     [Authorize]
     public class OrderController : ControllerBase
     {
-        private readonly OrderBLL _orderBLL;
+        private readonly OrderService _orderBLL;
 
-        public OrderController(OrderBLL orderBLL)
+        public OrderController(OrderService orderBLL)
         {
             _orderBLL = orderBLL;
         }

@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 mb-3">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Tóm tắt đơn hàng</h5>
                     <div class="d-flex justify-content-between mb-2">
@@ -37,7 +37,28 @@
                         <span>Tổng tiền:</span>
                         <strong id="total-price">0 đ</strong>
                     </div>
-                    <button class="btn btn-success w-100 fw-bold" onclick="checkout()">
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 fs-6">Thông Tin Giao Hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Tên người nhận <span class="text-danger">*</span></label>
+                        <input type="text" id="txtShippingName" class="form-control form-control-sm" placeholder="Nguyễn Văn A" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="text" id="txtShippingPhone" class="form-control form-control-sm" placeholder="0901234567" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
+                        <textarea id="txtShippingAddress" class="form-control form-control-sm" rows="2" placeholder="Số 1, Đường số 2, Phường..." required></textarea>
+                    </div>
+                    
+                    <button class="btn btn-success w-100 fw-bold py-2 mt-2" onclick="checkout()">
                         Xác nhận Thanh toán
                     </button>
                 </div>
@@ -57,7 +78,6 @@
         } else {
             cartData = JSON.parse(localStorage.getItem(CART_KEY)) || [];
         }
-
         renderCart();
     }
 
@@ -143,8 +163,20 @@
             return;
         }
 
+        const name = document.getElementById("txtShippingName").value.trim();
+        const phone = document.getElementById("txtShippingPhone").value.trim();
+        const address = document.getElementById("txtShippingAddress").value.trim();
+
+        if (!name || !phone || !address) {
+            alert("Vui lòng điền đầy đủ Thông tin giao hàng!");
+            return;
+        }
+
         const payload = {
             userId: "",
+            shippingName: name,
+            shippingPhone: phone,
+            shippingAddress: address,
             items: cartData.map(item => ({
                 id: item.id,
                 quantity: item.quantity,
@@ -184,7 +216,7 @@
             }
         } catch (error) {
             console.error("Lỗi:", error);
-            alert("Lỗi kết nối mạng!");
+            alert("Lỗi kết nối mạng hoặc phiên đăng nhập đã hết hạn!");
         } finally {
             btnCheckout.innerHTML = 'Xác nhận Thanh toán';
             btnCheckout.disabled = false;

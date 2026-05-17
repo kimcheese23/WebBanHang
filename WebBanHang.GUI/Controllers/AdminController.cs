@@ -2,25 +2,47 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.DAL;
-using WebBanHang.DTO.Entity;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using WebBanHang.BLL.Services;
+using WebBanHang.DTO.Responses;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebBanHang.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        private readonly AdminService _adminService;
         private readonly MyDbContext db;
 
-        public AdminController(MyDbContext context)
+        public AdminController(AdminService adminService, MyDbContext context)
         {
+            _adminService = adminService;
             db = context;
         }
 
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            ViewBag.ProductCount = db.Products.Count();
-            ViewBag.UserCount = db.Users.Count(); 
-            ViewBag.OrderCount = db.Orders.Count();
+            int currentYear = DateTime.Now.Year;
+
+            ViewBag.UserCount = await db.Users.CountAsync();
+
+            var summary = await _adminService.GetDashboardSummaryAsync();
+            ViewBag.Summary = summary;
+
+            var topProducts = await _adminService.GetTopSellingProductsAsync(5);
+            ViewBag.TopProducts = topProducts;
+
+            var revenueReport = await _adminService.GetMonthlyRevenueReportAsync(currentYear);
+            if (revenueReport != null && revenueReport.Any())
+            {
+                ViewBag.ChartMonths = string.Join(",", revenueReport.Select(r => $"\"Tháng {r.Month}\""));
+                ViewBag.ChartRevenue = string.Join(",", revenueReport.Select(r => r.TotalRevenue));
+                ViewBag.ChartOrders = string.Join(",", revenueReport.Select(r => r.TotalOrders));
+            }
 
             return View();
         }
@@ -29,17 +51,43 @@ namespace WebBanHang.Controllers
         {
             var categories = db.Categories.ToList();
 
-            ViewBag.CategoryList = categories.Select(categories => new
+            ViewBag.CategoryList = categories.Select(c => new
             {
-                Value = categories.Id,
-                Text = categories.Name
+                Value = c.Id,
+                Text = c.Name
             }).ToList();
+
             return View();
         }
 
         public IActionResult Categories()
         {
             return View();
+        }
+
+        public IActionResult Orders()
+        {
+            var orderList = _adminService.GetOrdersWithADO();
+            return View(orderList);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeOrderStatus(int orderId, int newStatus)
+        {
+            try
+            {
+                bool success = _adminService.UpdateOrderStatus(orderId, newStatus);
+
+                if (success)
+                {
+                    return Ok(new { success = true, message = "Cập nhật trạng thái thành công!" });
+                }
+                return BadRequest(new { success = false, message = "Không tìm thấy đơn hàng." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
         }
     }
 }

@@ -12,5 +12,8 @@ namespace WebBanHang.DTO.Entity
         public String? FullName { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Address { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

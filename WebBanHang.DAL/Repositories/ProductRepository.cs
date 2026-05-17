@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebBanHang.DAL;
 using WebBanHang.DTO.Entity;
+using WebBanHang.DTO.Responses;
 
 namespace WebBanHang.DAL.Repositories
 {
@@ -15,16 +18,27 @@ namespace WebBanHang.DAL.Repositories
             db = context;
         }
 
-        public IEnumerable<Product> GetAll() => db.Products.ToList();
-        public Product? GetById(int id) => db.Products.FirstOrDefault(p => p.Id == id);
+        public IEnumerable<Product> GetAll() => db.Products.Where(p => p.IsDeleted == false).ToList();
 
-        public async Task<List<ProductDetail>> GetAllProductDetailsAsync()
+        public Product? GetById(int id) => db.Products.FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
+
+        public async Task<List<ProductDetailDTO>> GetAllProductDetailsAsync()
         {
-            // Gọi View để lấy danh sách sản phẩm kèm tên Category
-            return await db.ProductDetails
-                           .FromSqlRaw("SELECT * FROM View_ProductDetails")
-                           .ToListAsync();
+            return await db.Products
+                .Include(p => p.Category)
+                .Where(p => p.IsDeleted == false)
+                .Select(p => new ProductDetailDTO
+                {
+                    Id = p.Id,
+                    ProductName = p.Name,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Image = p.Image,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category != null ? p.Category.Name : "Chưa phân loại"
+                }).ToListAsync();
         }
+
         public async Task<int> Add(Product p)
         {
             var result = await db.Database
@@ -37,11 +51,10 @@ namespace WebBanHang.DAL.Repositories
             return newId;
         }
 
-
         public List<Product> Search(string keyword)
         {
             return db.Products
-                .Where(p => p.Name.Contains(keyword))
+                .Where(p => p.Name.Contains(keyword) && p.IsDeleted == false)
                 .ToList();
         }
 
@@ -49,13 +62,17 @@ namespace WebBanHang.DAL.Repositories
         {
             await db.Database.ExecuteSqlRawAsync("EXEC sp_UpdateProduct {0}, {1}, {2}, {3}, {4}, {5}",
             p.Id, p.Name, p.Price, p.Quantity, p.CategoryId, p.Image ?? (object)DBNull.Value);
-            db.ChangeTracker.Clear(); // Xóa cache để đảm bảo dữ liệu mới nhất được lấy khi truy vấn lại
+            db.ChangeTracker.Clear();
         }
 
         public async Task Delete(int id)
         {
-            await db.Database.ExecuteSqlRawAsync("EXEC sp_DeleteProduct {0}", id);
-            db.ChangeTracker.Clear(); // Xóa cache để đảm bảo dữ liệu mới nhất được lấy khi truy vấn lại
-        }        
+            var product = await db.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product != null)
+            {
+                product.IsDeleted = true;
+                await db.SaveChangesAsync();
+            }
+        }
     }
 }

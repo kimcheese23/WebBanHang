@@ -14,7 +14,6 @@ builder.Logging.AddConsole();
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Bỏ yêu cầu mật khẩu phức tạp
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = false;
@@ -30,10 +29,14 @@ builder.Services.AddScoped<ProductRepository>();
 string connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<CategoryRepository>(provider => new CategoryRepository(connString));
 builder.Services.AddScoped<CategoryService>(provider => new CategoryService(connString));
-
-builder.Services.AddScoped<WebBanHang.DAL.OrderDAL>();
-builder.Services.AddScoped<WebBanHang.BLL.OrderBLL>();
-
+builder.Services.AddScoped<WebBanHang.DAL.Repositories.AdminRepository>();
+builder.Services.AddScoped<WebBanHang.DAL.Repositories.OrderRepository>();
+builder.Services.AddScoped<WebBanHang.BLL.Services.AdminService>();
+builder.Services.AddScoped<WebBanHang.BLL.Services.OrderService>();
+builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<AdminRepository>();
+builder.Services.AddScoped<AdminService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

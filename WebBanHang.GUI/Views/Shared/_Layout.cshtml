@@ -36,6 +36,12 @@
                 <ul class="navbar-nav ms-auto">
                     @if (User?.Identity?.IsAuthenticated == true)
                     {
+                        <li class="nav-item d-flex align-items-center me-2">
+                            <a class="nav-link text-warning fw-bold" asp-controller="UserOrder" asp-action="History">
+                                <i class="bi bi-file-earmark-text"></i> Đơn hàng của tôi
+                            </a>
+                        </li>
+                        
                         <li class="nav-item me-3 d-flex align-items-center">
                             <a class="nav-link position-relative" href="/Cart">
                                 <i class="bi bi-cart4 fs-4"></i>
@@ -80,7 +86,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const isAuthenticated = @(User?.Identity?.IsAuthenticated == true ? "true" : "false");
+        const isAuthenticated = @(User?.Identity?.IsAuthenticated ?? false ? "true" : "false");
         const currentUser = "@(User?.Identity?.Name ?? "")";
         const CART_KEY = currentUser ? "cart_" + currentUser : "cart";
         const API_BASE = window.location.origin + "/api";
