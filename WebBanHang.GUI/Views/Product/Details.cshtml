@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var ratingInfo = ViewBag.RatingInfo as WebBanHang.DTO.Responses.ProductRatingSummaryDTO;
 }
 
 <div class="container mt-5">
@@ -12,9 +14,34 @@
         </div>
         <div class="col-md-7">
             <h2 class="fw-bold">@Model.Name</h2>
+
+            <div class="d-flex align-items-center mt-2 mb-3">
+                @if (ratingInfo != null && ratingInfo.TotalReviews > 0)
+                {
+                    <div class="text-warning me-2 fs-5">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Round(ratingInfo.AverageRating))
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        }
+                    </div>
+                    <span class="fw-bold text-dark me-2 fs-5">@ratingInfo.AverageRating.ToString("0.0") / 5.0</span>
+                    <span class="text-muted border-start ps-2">@ratingInfo.TotalReviews lượt đánh giá</span>
+                }
+                else
+                {
+                    <span class="text-muted fst-italic"><i class="bi bi-star"></i> Sản phẩm mới (Chưa có đánh giá)</span>
+                }
+            </div>
             <p class="text-danger fs-2 fw-bold mt-3">@Model.Price.ToString("N0") đ</p>
             <button class="btn btn-success btn-lg mt-3 px-5"
-                     onclick="addToCart(@Model.Id, '@Html.Raw(Model.Name)', @((int)Model.Price), '@Model.Image')">
+                    onclick="addToCart(@Model.Id, '@Html.Raw(Model.Name)', @((int)Model.Price), '@Model.Image')">
                 <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
             </button>
         </div>
@@ -26,7 +53,7 @@
         <div class="col-md-7">
             <h4 class="mb-4">Khách hàng đánh giá</h4>
             <div class="review-list" style="max-height: 500px; overflow-y: auto;">
-                
+
                 @if (ViewBag.Reviews != null && ((System.Collections.IList)ViewBag.Reviews).Count > 0)
                 {
                     foreach (var rev in ViewBag.Reviews)
@@ -55,7 +82,7 @@
             </div>
         </div>
 
-        <div class="col-md-5">  
+        <div class="col-md-5">
             @if (ViewBag.CanReview == true)
             {
                 var myRev = ViewBag.MyReview as WebBanHang.DTO.Entity.Review;
@@ -99,7 +126,7 @@
 @section Scripts {
     <script>
         function addToCart(id, name, price, image) {
-            
+
             let isLogin = @(User.Identity != null && User.Identity.IsAuthenticated ? "true" : "false");
 
             if (!isLogin) {

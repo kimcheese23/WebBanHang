@@ -74,5 +74,13 @@ namespace WebBanHang.DAL.Repositories
                 await db.SaveChangesAsync();
             }
         }
+
+        public async Task<List<ProductRatingSummaryDTO>> GetProductRatingsAsync()
+        {
+            return await db.Database
+                .SqlQueryRaw<ProductRatingSummaryDTO>(
+                    "SELECT ProductId, ProductName, TotalReviews, AverageRating FROM View_ProductRatingSummary")
+                .ToListAsync();
+        }
     }
 }

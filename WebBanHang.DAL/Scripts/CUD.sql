@@ -81,7 +81,7 @@ BEGIN
 
     IF LOWER(LTRIM(RTRIM(@CategoryName))) LIKE N'%không xác định%'
     BEGIN
-        RAISERROR (N'HỆ THỐNG BẢO VỆ: Bạn tuyệt đối không được xóa danh mục mặc định này!', 16, 1);
+        RAISERROR (N'Bạn không được xóa danh mục mặc định này!', 16, 1);
         RETURN;
     END
 
@@ -96,7 +96,7 @@ BEGIN
 
     IF @Id = @DefaultCategoryId
     BEGIN
-        RAISERROR (N'HỆ THỐNG BẢO VỆ: Không thể xóa danh mục hệ thống!', 16, 1);
+        RAISERROR (N'Không thể xóa danh mục hệ thống!', 16, 1);
         RETURN;
     END
 
@@ -237,7 +237,7 @@ SELECT
     p.Id AS ProductId,
     p.Name AS ProductName,
     COUNT(r.Id) AS TotalReviews,
-    ISNULL(AVG(CAST(r.Rating AS DECIMAL(3,2))), 5.0) AS AverageRating
+    ISNULL(AVG(CAST(r.Rating AS DECIMAL(3,2))), 0.0) AS AverageRating
 FROM Products p
 LEFT JOIN Reviews r ON p.Id = r.ProductId
 WHERE p.IsDeleted = 0
@@ -342,7 +342,8 @@ BEGIN
     END
 END;
 GO
-
+-- function
+-- 5
 CREATE OR ALTER FUNCTION dbo.fn_CalculateTotalRevenue()
 RETURNS DECIMAL(18,2)
 AS
