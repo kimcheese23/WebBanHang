@@ -25,17 +25,25 @@ namespace WebBanHang.GUI.Controllers
             _reviewService = reviewService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewBag.CategoryList = _categoryService.GetCategoriesForDropdown();
             var products = _productService.GetAllProducts().ToList();
+
+            var ratings = await _productService.GetProductRatingsAsync();
+            ViewBag.ProductRatings = ratings.ToDictionary(r => r.ProductId);
+
             return View(products);
         }
+
 
         public async Task<IActionResult> Details(int id)
         {
             var product = _context.Products.Find(id);
             if (product == null) return NotFound();
+
+            var ratings = await _productService.GetProductRatingsAsync();
+            ViewBag.RatingInfo = ratings.FirstOrDefault(r => r.ProductId == id);
 
             var reviews = _context.Reviews
                 .Where(r => r.ProductId == id)

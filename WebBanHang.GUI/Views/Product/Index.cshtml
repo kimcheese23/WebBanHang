@@ -1,6 +1,13 @@
-﻿@{
+﻿@using System.Text.Json
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Danh sách sản phẩm";
+
+    var ratingsJson = "{}";
+    if (ViewBag.ProductRatings != null)
+    {
+        ratingsJson = JsonSerializer.Serialize(ViewBag.ProductRatings);
+    }
 }
 
 <div class="container mt-4">
@@ -41,27 +48,26 @@
 <script>
     const PRODUCT_API = "/api/ProductApi";
 
+    const productRatings = @Html.Raw(ratingsJson);
+
     async function loadProducts() {
         const container = document.getElementById('product-list');
         const loading = document.getElementById('loading');
         const keyword = document.getElementById('searchInput').value.trim();
         const categoryId = document.getElementById('categoryFilter').value;
-            
+
         loading.classList.remove('d-none');
         container.innerHTML = '';
 
         try {
             let url = keyword ? `${PRODUCT_API}/search?name=${encodeURIComponent(keyword)}` : `${PRODUCT_API}/details`;
-            
+
             const response = await fetch(url);
             let products = await response.json();
-
-            console.log("Dữ liệu 1 sản phẩm mẫu:", products[0]);
 
             if (categoryId) {
                 products = products.filter(p => {
                     let apiCatId = p.categoryId || p.CategoryId;
-                    
                     return String(apiCatId) === String(categoryId);
                 });
             }
@@ -71,12 +77,41 @@
                 return;
             }
 
-            container.innerHTML = products.map(item => `
+            container.innerHTML = products.map(item => {
+
+                const ratingInfo = productRatings[item.id || item.Id];
+                let ratingHtml = '';
+
+                const totalRevs = ratingInfo ? (ratingInfo.TotalReviews || ratingInfo.totalReviews || 0) : 0;
+                const avgRating = ratingInfo ? Number(ratingInfo.AverageRating || ratingInfo.averageRating || 0) : 0;
+
+                if (totalRevs > 0) {
+                    let stars = '';
+                    const roundedAvg = Math.round(avgRating);
+                    for (let i = 1; i <= 5; i++) {
+                        if (i <= roundedAvg) stars += '<i class="bi bi-star-fill text-warning"></i> ';
+                        else stars += '<i class="bi bi-star text-warning"></i> ';
+                    }
+                    ratingHtml = `
+                        <div class="mb-2" style="font-size: 0.85rem;">
+                            ${stars}
+                            <span class="text-muted fw-bold ms-1">${avgRating.toFixed(1)} (${totalRevs})</span>
+                        </div>
+                    `;
+                } else {
+                    ratingHtml = `
+                        <div class="text-muted fst-italic mb-2" style="font-size: 0.85rem;">
+                            <i class="bi bi-chat-left-text"></i> Chưa có đánh giá
+                        </div>
+                    `;
+                }
+
+                return `
                 <div class="col-md-3 mb-4">
                     <div class="card h-100 shadow-sm border-0">
-                        
-                        <a href="/Product/Details/${item.id}">
-                            <img src="/Content/images/${item.image || 'default.jpg'}"
+
+                        <a href="/Product/Details/${item.id || item.Id}">
+                            <img src="/Content/images/${item.image || item.Image || 'default.jpg'}"
                                     class="card-img-top"
                                     style="height:200px; object-fit:cover;"
                                     onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
@@ -84,29 +119,32 @@
 
                         <div class="card-body text-center d-flex flex-column">
                             <h6 class="card-title">
-                                <a href="/Product/Details/${item.id}"
+                                <a href="/Product/Details/${item.id || item.Id}"
                                     class="text-dark text-decoration-none fw-bold">
-                                    ${item.productName || item.name}
+                                    ${item.productName || item.ProductName || item.name || item.Name}
                                 </a>
                             </h6>
-                            <p class="text-muted small">${item.categoryName || 'Sản phẩm'}</p>
+                            <p class="text-muted small mb-1">${item.categoryName || item.CategoryName || 'Sản phẩm'}</p>
+
+                            ${ratingHtml}
+
                             <p class="fw-bold text-danger mt-auto">
-                                ${Number(item.price).toLocaleString('vi-VN')} đ
+                                ${Number(item.price || item.Price).toLocaleString('vi-VN')} đ
                             </p>
                             <div class="d-flex justify-content-between mt-auto pt-2">
                                 <button class="btn btn-outline-danger btn-sm w-50 me-1" title="Thêm vào giỏ hàng"
-                                        onclick="addToCart(${item.id}, '${item.productName || item.name}', ${item.price}, '${item.image || 'default.jpg'}')">
+                                        onclick="addToCart(${item.id || item.Id}, '${item.productName || item.ProductName || item.name || item.Name}', ${item.price || item.Price}, '${item.image || item.Image || 'default.jpg'}')">
                                     <i class="bi bi-cart-plus"></i> Giỏ hàng
                                 </button>
                                 <button class="btn btn-danger btn-sm w-50 ms-1"
-                                        onclick="buyNow(${item.id}, '${item.productName || item.name}', ${item.price}, '${item.image || 'default.jpg'}')">
+                                        onclick="buyNow(${item.id || item.Id}, '${item.productName || item.ProductName || item.name || item.Name}', ${item.price || item.Price}, '${item.image || item.Image || 'default.jpg'}')">
                                     Mua ngay
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
 
         } catch (error) {
             console.error("Lỗi load sản phẩm:", error);
@@ -162,7 +200,7 @@
 
         const buyNowItem = { id: id, name: name, price: price, image: image, quantity: 1 };
         sessionStorage.setItem('buy_now_item', JSON.stringify(buyNowItem));
-        
+
         sessionStorage.setItem('checkout_type', 'buy_now');
         window.location.href = '/Cart';
     }

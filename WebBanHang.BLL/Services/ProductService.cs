@@ -45,5 +45,9 @@ namespace WebBanHang.BLL.Services
         }
 
         public async Task DeleteProduct(int id) => await repo.Delete(id);
+        public async Task<List<ProductRatingSummaryDTO>> GetProductRatingsAsync()
+        {
+            return await repo.GetProductRatingsAsync();
+        }
     }
 }
