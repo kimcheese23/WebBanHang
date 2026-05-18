@@ -5,6 +5,8 @@ using WebBanHang.DAL.Repositories;
 using WebBanHang.DTO.Entity;
 using WebBanHang.DTO.Requests;
 using WebBanHang.DTO.Responses;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace WebBanHang.BLL.Services
 {
@@ -44,7 +46,21 @@ namespace WebBanHang.BLL.Services
                 });
             }
 
-            return await _orderRepository.CreateOrderWithTransactionAsync(order, orderDetails);
+            try
+            {
+                return await _orderRepository.CreateOrderWithTransactionAsync(order, orderDetails);
+            }
+            catch (Exception ex)
+            {
+                Exception rootCause = ex;
+                while (rootCause.InnerException != null)
+                {
+                    rootCause = rootCause.InnerException;
+                }
+                string cleanMessage = rootCause.Message.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+                throw new Exception(cleanMessage);
+            }
         }
 
         public async Task<List<UserOrderHistoryDTO>> GetUserOrderHistoryAsync(string userId)

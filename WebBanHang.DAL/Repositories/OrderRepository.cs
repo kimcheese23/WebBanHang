@@ -42,7 +42,7 @@ namespace WebBanHang.DAL.Repositories
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    throw new Exception("Quá trình đặt hàng thất bại: " + ex.Message);
+                    throw;
                 }
             }
         }
